@@ -389,6 +389,28 @@ body,.app,.screen,.header,.sidebar,.right-panel,.chat-area,.a-section,.settings-
 
 
 .meeting-grid,.online-game-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}.meeting-card,.online-game-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px}.meeting-title,.online-game-title{font-weight:800;color:var(--text);margin-bottom:6px}.meeting-meta,.online-game-meta{font-size:12px;color:var(--text2);line-height:1.5}.ttt-online-board{display:grid;grid-template-columns:repeat(3,70px);gap:8px;margin:14px 0}.ttt-online-cell{height:70px;border-radius:14px;border:1px solid var(--border2);background:rgba(255,255,255,.04);font-size:32px;font-weight:900;color:var(--text);cursor:pointer}.pending-badge{display:inline-flex;padding:2px 7px;border-radius:99px;background:rgba(245,158,11,.15);border:1px solid rgba(245,158,11,.35);font-size:10px;color:var(--gold);font-weight:800}.approved-badge{display:inline-flex;padding:2px 7px;border-radius:99px;background:rgba(22,163,74,.15);border:1px solid rgba(22,163,74,.35);font-size:10px;color:#4ade80;font-weight:800}
+
+/* v4 Hologram redesign */
+body{background:radial-gradient(circle at 10% 10%,rgba(61,172,255,.12),transparent 26%),radial-gradient(circle at 90% 15%,rgba(0,255,200,.10),transparent 22%),radial-gradient(circle at 50% 100%,rgba(136,92,255,.12),transparent 30%),linear-gradient(135deg,#020816 0%,#06122f 45%,#030b1f 100%)!important;background-attachment:fixed;}
+body:before{content:'';position:fixed;inset:0;pointer-events:none;background-image:linear-gradient(rgba(90,180,255,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(90,180,255,.06) 1px,transparent 1px);background-size:44px 44px;mask-image:radial-gradient(circle at center, black, transparent 85%);}
+.auth-card,.modal,.a-section,.online-game-card,.meeting-card,.game-card,.sidebar,.right-panel,.chat-area,.header{background:linear-gradient(180deg,rgba(8,20,52,.82),rgba(3,10,28,.88))!important;backdrop-filter:blur(14px);border:1px solid rgba(91,196,255,.22)!important;box-shadow:0 0 0 1px rgba(91,196,255,.06),0 18px 50px rgba(0,0,0,.35),0 0 40px rgba(35,140,255,.08)!important;}
+.auth-card{position:relative;overflow:hidden;}
+.auth-card:before,.a-section:before{content:'';position:absolute;inset:0;pointer-events:none;background:linear-gradient(120deg,transparent 0%,rgba(84,217,255,.07) 35%,transparent 70%);mix-blend-mode:screen;}
+.auth-logo{letter-spacing:4px;text-shadow:0 0 18px rgba(64,165,255,.45),0 0 34px rgba(0,255,255,.15)!important;}
+.auth-title{font-size:40px;font-weight:900;background:linear-gradient(90deg,#8de8ff,#4ab2ff 55%,#7af7da);-webkit-background-clip:text;background-clip:text;color:transparent;}
+.btn-primary{background:linear-gradient(90deg,#2d7bff,#35d7ff)!important;box-shadow:0 10px 25px rgba(45,123,255,.28),inset 0 0 18px rgba(255,255,255,.08);}
+.btn-secondary,.btn-warn{backdrop-filter:blur(10px);}
+.holo-input{background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.04))!important;border-color:rgba(111,203,255,.24)!important;box-shadow:inset 0 0 12px rgba(86,176,255,.06);}
+.holo-input:focus{box-shadow:0 0 0 3px rgba(74,178,255,.16),0 0 22px rgba(74,178,255,.18)!important;}
+.logo{font-weight:900;letter-spacing:5px;text-shadow:0 0 16px rgba(90,180,255,.45);}
+.notify-btn,.send-btn,.attach-btn,.emoji-picker-btn{box-shadow:0 0 20px rgba(86,176,255,.12);}
+.online-game-card .online-game-title,.meeting-title,.a-section-title{letter-spacing:.5px;}
+
+
+.connect4-board{display:grid;grid-template-columns:repeat(7,52px);gap:7px;margin:14px 0;padding:12px;border-radius:18px;background:linear-gradient(180deg,rgba(30,123,255,.18),rgba(10,26,70,.28));border:1px solid rgba(91,196,255,.24)}
+.connect4-cell{width:52px;height:52px;border-radius:50%;border:1px solid rgba(141,232,255,.24);background:rgba(255,255,255,.06);color:var(--text);font-size:22px;font-weight:900;cursor:pointer;box-shadow:inset 0 0 14px rgba(0,0,0,.24)}
+.connect4-cell.x{background:radial-gradient(circle,#35d7ff,#2d7bff);color:#00122e;text-shadow:none}.connect4-cell.o{background:radial-gradient(circle,#ffd166,#ff7b2d);color:#281000;text-shadow:none}.connect4-cell:disabled{cursor:not-allowed;opacity:.9}
+
 </style>
 </head>
 <body>
@@ -489,6 +511,31 @@ body,.app,.screen,.header,.sidebar,.right-panel,.chat-area,.a-section,.settings-
   </div>
 </div>
 
+
+<div class="modal-overlay" id="modalForgotPwd">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('modalForgotPwd')">&#x2715;</button>
+    <div class="modal-title">&#x1F512; Reset Password</div>
+    <div class="settings-desc" style="margin-bottom:10px">Request a reset email or enter a token that was already sent to you.</div>
+    <label class="field-label">Email</label>
+    <input class="holo-input" type="email" id="fp-email" placeholder="your@email.com">
+    <button class="btn btn-secondary btn-sm" onclick="requestPwdReset()" style="margin-top:10px">Send reset link</button>
+    <hr style="border-color:var(--border);margin:16px 0">
+    <label class="field-label">Reset Token</label>
+    <input class="holo-input" id="fp-token" placeholder="Paste reset token">
+    <label class="field-label">New Password</label>
+    <input class="holo-input" type="password" id="fp-new" placeholder="Minimum 6 characters">
+    <label class="field-label">Confirm Password</label>
+    <input class="holo-input" type="password" id="fp-new2" placeholder="Confirm new password">
+    <div class="alert error" id="fp-err"></div>
+    <div class="alert success" id="fp-ok"></div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary btn-sm" onclick="closeModal('modalForgotPwd')" style="flex:.4">Cancel</button>
+      <button class="btn btn-primary" onclick="applyPwdReset()">Reset Password</button>
+    </div>
+  </div>
+</div>
+
 <div class="app">
   <!-- TOPBAR WIDGETS -->
   <div class="topbar-widgets" id="topWidgets">
@@ -499,7 +546,8 @@ body,.app,.screen,.header,.sidebar,.right-panel,.chat-area,.a-section,.settings-
     <div class="widget-sep"></div>
     <div class="weather-widget">
       <span style="font-size:11px;color:var(--text3);font-weight:600">&#x1F324;</span>
-      <input class="weather-city-input" id="weatherCity" placeholder="City weather..." value="Erbil" onkeydown="if(event.key==='Enter')fetchWeather()">
+      <input class="weather-city-input" id="weatherCity" list="citySuggestions" placeholder="City weather..." value="Erbil" oninput="showCityHints(this.value)" onkeydown="if(event.key==='Enter')fetchWeather()">
+      <datalist id="citySuggestions"></datalist>
       <button class="btn btn-secondary btn-sm" onclick="fetchWeather()" style="padding:4px 10px;font-size:11px">Go</button>
       <div class="weather-result" id="weatherResult"></div>
     </div>
@@ -540,8 +588,8 @@ body,.app,.screen,.header,.sidebar,.right-panel,.chat-area,.a-section,.settings-
           <div class="alert error" id="l-err"></div>
           <button class="btn btn-primary" onclick="login()">Sign In &#x2192;</button>
           <div class="auth-toggle">No account? <a onclick="switchAuth('register')">Register here</a></div>
+          <div class="auth-toggle" style="margin-top:10px"><a onclick="openModal('modalForgotPwd')">Forgot password?</a></div>
         </div>
-        <div class="demo-box"><strong>&#x1F511; Default Admin Login</strong>Username: <span class="demo-val">admin</span> &nbsp; Password: <span class="demo-val">Admin123!</span></div>
       </div>
       <div id="formRegister" style="display:none">
         <div class="auth-card">
@@ -616,6 +664,7 @@ body,.app,.screen,.header,.sidebar,.right-panel,.chat-area,.a-section,.settings-
         <div class="sb-bottom">
           <button class="btn btn-secondary btn-sm" id="btnAdmin" style="display:none" onclick="showScreen('screenAdmin')">&#x2699; Admin Panel</button>
           <button class="btn btn-secondary btn-sm" onclick="showScreen('screenStats')">&#x1F4CA; Statistics</button>
+          <button class="btn btn-secondary btn-sm" onclick="showScreen('screenActivity')">&#x26A1; Activity Hub</button>
           <button class="btn btn-secondary btn-sm" onclick="showScreen('screenGames')">&#x1F3AE; Games</button>
           <button class="btn btn-secondary btn-sm" onclick="showScreen('screenMeetings')">&#x1F4C5; Meetings</button>
           <button class="btn btn-secondary btn-sm" onclick="showScreen('screenSettings')">&#x25C8; Settings</button>
@@ -662,7 +711,7 @@ body,.app,.screen,.header,.sidebar,.right-panel,.chat-area,.a-section,.settings-
       <div class="stat-grid" id="adminStats"></div>
       <div class="a-section"><div class="a-section-title">Member Management</div><div id="adminMembers"></div></div>
       <div class="a-section"><div class="a-section-title">Room Management</div><div id="adminRooms"></div></div>
-      <div class="a-section"><div class="a-section-title">Backup & Recovery</div><button class="btn btn-secondary" onclick="downloadBackup()">Download Full Backup</button><div class="settings-desc" style="margin-top:8px">Exports users, rooms, messages, meetings, games and logs.</div></div>
+      <div class="a-section"><div class="a-section-title">Backup & Recovery</div><button class="btn btn-secondary" onclick="downloadBackup()">Download Full Backup</button><div class="settings-desc" style="margin-top:8px">Exports users, rooms, messages, meetings, games and logs. Upload storage uses Cloudflare R2 when R2 variables are configured; otherwise it uses Railway/local volume.</div></div>
       <div class="a-section"><div class="a-section-title">Security Log</div><div class="sec-log" id="adminLog"></div></div>
     </div>
   </div>
@@ -677,6 +726,12 @@ body,.app,.screen,.header,.sidebar,.right-panel,.chat-area,.a-section,.settings-
   </div>
 
   <!-- GAMES SCREEN -->
+
+  <div class="screen stats-screen" id="screenActivity">
+    <div class="topbar"><button class="back-btn" onclick="showScreen('screenMain')">&#x2190;</button><div><div class="admin-h1">&#x26A1; Activity Hub</div><div class="admin-sub">Competitive leaderboard, storage status, latest activity and system intelligence.</div></div></div>
+    <div class="admin-body" id="activityBody"></div>
+  </div>
+
   <div class="screen games-screen" id="screenGames">
     <div class="admin-topbar">
       <button class="btn btn-secondary btn-sm" onclick="backToChat()">&#x2190; Back</button>
@@ -943,8 +998,9 @@ function handleWS(msg){
       if(msg.roomId===S.currentRoom){const el=document.querySelector(`[data-mid="${msg.msgId}"]`);if(el)el.remove();}break;
     case 'user_updated':
       const uu=S.users.find(x=>x.id===msg.userId);
-      if(uu){['bio','status','jobTitle','name','color','role'].forEach(k=>{if(msg[k]!==undefined)uu[k]=msg[k];});}
-      renderRightPanel();renderSidebar();break;
+      if(uu){['bio','status','jobTitle','name','color','role','approved'].forEach(k=>{if(msg[k]!==undefined)uu[k]=msg[k];});}
+      if(S.user && S.user.id===msg.userId){['bio','status','jobTitle','name','color','role','approved'].forEach(k=>{if(msg[k]!==undefined)S.user[k]=msg[k];});}
+      renderRightPanel();renderSidebar();if(document.getElementById('screenSettings')?.classList.contains('active'))renderSettings();break;
   }
 }
 
@@ -956,6 +1012,12 @@ function switchAuth(m){
 }
 function showErr(id,msg){const e=document.getElementById(id);if(e){e.textContent=msg;e.className='alert error show';}}
 function showOk(id,msg){const e=document.getElementById(id);if(e){e.textContent=msg;e.className='alert success show';}}
+
+
+const CITY_POOL = ['Erbil','Baghdad','Basra','Mosul','Kirkuk','Sulaymaniyah','Duhok','Najaf','Karbala','Amman','Dubai','Abu Dhabi','Riyadh','Jeddah','Doha','Muscat','Kuwait City','Beirut','Damascus','Cairo','Alexandria','Istanbul','Ankara','Tehran','Tabriz','Berlin','Paris','London','Rome','Madrid','New York','Toronto','Sydney','Tokyo','Seoul','Mumbai'];
+function showCityHints(v=''){const list=document.getElementById('citySuggestions');if(!list)return;const q=(v||'').trim().toLowerCase();const items=CITY_POOL.filter(c=>!q||c.toLowerCase().includes(q)).slice(0,10);list.innerHTML=items.map(c=>`<option value="${esc(c)}"></option>`).join('');}
+async function requestPwdReset(){const email=(document.getElementById('fp-email').value||'').trim();if(!email){showErr('fp-err','Enter your email first.');return;}const res=await api('/api/request-password-reset',{email});if(res.ok){showOk('fp-ok',res.mode==='email'?'If the email exists, a reset link was sent.':'Reset request saved. Ask admin to check logs if SMTP is not configured.');}else showErr('fp-err',res.error||'Reset request failed');}
+async function applyPwdReset(){const token=(document.getElementById('fp-token').value||'').trim();const p1=document.getElementById('fp-new').value,p2=document.getElementById('fp-new2').value;if(!token||!p1||!p2){showErr('fp-err','Fill all reset fields.');return;}if(p1!==p2){showErr('fp-err','Passwords do not match.');return;}const res=await api('/api/reset-password-with-token',{token,newPassword:p1});if(res.ok){showOk('fp-ok','Password updated successfully. You can log in now.');}else showErr('fp-err',res.error==='invalid_or_expired_token'?'Reset token is invalid or expired.':(res.error||'Reset failed'));}
 
 async function login(){
   const u=(document.getElementById('l-user').value||'').trim().toLowerCase();
@@ -1314,7 +1376,7 @@ async function renderAdmin(){
         <input class="holo-input" id="au_username_${safeId}" value="${esc(u.username)}" placeholder="Username" ${u.id==='admin'?'disabled':''}>
         <input class="holo-input" id="au_email_${safeId}" value="${esc(u.email||'')}" placeholder="Email">
         <input class="holo-input" id="au_job_${safeId}" value="${esc(u.jobTitle||'')}" placeholder="Nickname / job title">
-        <select class="holo-input" id="au_role_${safeId}" ${u.id==='admin'?'disabled':''}><option value="member" ${u.role==='member'?'selected':''}>member</option><option value="admin" ${u.role==='admin'?'selected':''}>admin</option></select>
+        <select class="holo-input" id="au_role_${safeId}" ${u.id==='admin'?'disabled':''}><option value="guest" ${u.role==='guest'?'selected':''}>guest</option><option value="member" ${u.role==='member'?'selected':''}>member</option><option value="manager" ${u.role==='manager'?'selected':''}>manager</option><option value="admin" ${u.role==='admin'?'selected':''}>admin</option></select>
         <select class="holo-input" id="au_color_${safeId}"><option value="navy" ${u.color==='navy'?'selected':''}>navy</option><option value="crimson" ${u.color==='crimson'?'selected':''}>crimson</option><option value="teal" ${u.color==='teal'?'selected':''}>teal</option><option value="forest" ${u.color==='forest'?'selected':''}>forest</option><option value="amber" ${u.color==='amber'?'selected':''}>amber</option><option value="slate" ${u.color==='slate'?'selected':''}>slate</option></select>
         <input class="holo-input" id="au_pwd_${safeId}" placeholder="New password (optional)">
       </div>
@@ -1332,7 +1394,7 @@ async function renderAdmin(){
       ${r.id!=='general'?`<button class="btn btn-danger btn-sm" onclick="adminDelRoom('${r.id}')">Delete</button>`:'<span style="font-size:10px;color:var(--text3)">PROTECTED</span>'}`;
     rl.appendChild(row);
   });
-  document.getElementById('adminLog').innerHTML=logs.slice(0,25).map(l=>`<div class="log-entry ${l.type}">[${l.t}] ${l.msg}</div>`).join('')||'<div style="color:var(--text3)">No logs yet.</div>';
+  document.getElementById('adminLog').innerHTML=logs.slice(0,100).map(l=>`<div class="log-entry ${l.type}">[${l.t}] ${l.msg}</div>`).join('')||'<div style="color:var(--text3)">No logs yet.</div>';
 }
 
 // Stats
@@ -1603,7 +1665,7 @@ async function saveProfile(){
   const bio=document.getElementById('settingsBio').value.trim();
   const status=document.getElementById('settingsStatus').value;
   const res=await api('/api/update-prefs',{userId:S.user.id,bio,status,jobTitle,lang:S.lang,theme:S.theme});
-  if(res.ok){S.user.bio=bio;S.user.status=status;S.user.jobTitle=jobTitle;showToast('Profile saved!','success');renderSettings();}
+  if(res.ok){S.user.bio=bio;S.user.status=status;S.user.jobTitle=jobTitle;const me=S.users.find(u=>u.id===S.user.id);if(me){me.bio=bio;me.status=status;me.jobTitle=jobTitle;}showToast('Profile saved!','success');renderSettings();renderSidebar();renderRightPanel();}
 }
 
 
@@ -1642,6 +1704,7 @@ setInterval(updateStats,15000);
 function initTopWidgets(){
   const city=document.getElementById('weatherCity');
   if(city && !city.value) city.value='Erbil';
+  showCityHints(city?.value||'Erbil');
   fetchWeather();
   renderCal();
 }
@@ -1685,10 +1748,36 @@ async function createMeeting(){const participants=[...document.getElementById('m
 async function meetingRespond(id,status){const res=await api('/api/meetings/respond',{userId:S.user.id,meetingId:id,status});if(res.ok){showToast('Meeting response saved.','success');renderMeetings();}else showToast(res.error||'Response failed','error');}
 const _oldRenderGamesMenu=renderGamesMenu;
 renderGamesMenu=async function(){_oldRenderGamesMenu();setTimeout(renderTwoPlayerPanel,0);};
-async function renderTwoPlayerPanel(){const body=document.getElementById('gamesBody');if(!body)return;const users=S.users.filter(u=>u.id!==S.user.id && u.approved!==false);const res=await get(`/api/games/sessions?userId=${encodeURIComponent(S.user.id)}`);const games=res.games||[];const panel=document.createElement('div');panel.className='a-section';panel.innerHTML=`<div class="a-section-title">Two-Player Online Tic Tac Toe</div><div class="online-game-grid"><div class="online-game-card"><div class="online-game-title">Invite a User</div><select class="holo-input" id="gameInviteUser">${users.map(u=>`<option value="${u.id}">${esc(u.name)} @${esc(u.username)}</option>`).join('')}</select><button class="btn btn-primary" onclick="inviteGame()">Send Game Invite</button></div><div class="online-game-card"><div class="online-game-title">Active Games</div>${games.length?games.map(g=>`<div class="meeting-meta"><button class="btn btn-secondary btn-sm" onclick="renderOnlineGameBoardById('${g.id}')">Open ${g.status} game</button> vs ${esc((g.players||[]).map(id=>S.users.find(u=>u.id===id)?.name||id).join(' / '))}</div>`).join(''):'<div class="meeting-meta">No games yet.</div>'}</div></div><div id="onlineGameBoard"></div>`;body.appendChild(panel);}
-async function inviteGame(){const toId=document.getElementById('gameInviteUser')?.value;if(!toId)return showToast('Select a user first.','warn');const res=await api('/api/games/invite',{fromId:S.user.id,toId,gameType:'ttt'});if(res.ok){showToast('Game invite sent.','success');renderOnlineGameBoard(res.game);}else showToast(res.error||'Invite failed','error');}
+
+async function renderActivityHub(){
+  const body=document.getElementById('activityBody');if(!body)return;
+  const res=await get('/api/activity');
+  if(!res.ok){body.innerHTML='<div class="a-section">Activity not available yet.</div>';return;}
+  const storage=res.storage||{};
+  body.innerHTML=`<div class="a-section"><div class="a-section-title">System Intelligence</div><div class="stats-grid">
+    <div class="stat-card sc-navy"><div class="stat-big sb-navy">${res.totalUsers||0}</div><div class="stat-lbl">Users</div></div>
+    <div class="stat-card sc-green"><div class="stat-big sb-green">${res.totalRooms||0}</div><div class="stat-lbl">Rooms</div></div>
+    <div class="stat-card sc-gold"><div class="stat-big sb-gold">${res.totalGames||0}</div><div class="stat-lbl">Games</div></div>
+    <div class="stat-card sc-red"><div class="stat-big sb-red">${res.finishedGames||0}</div><div class="stat-lbl">Finished Games</div></div>
+  </div><div class="meeting-meta" style="margin-top:12px">Database: ${storage.postgresql?'PostgreSQL active':'JSON fallback'} · Uploads: ${storage.uploads||'local'} · R2: ${storage.r2?'enabled':'off'}</div></div>
+  <div class="a-section"><div class="a-section-title">Competitive Leaderboard</div>${(res.topMembers||[]).map((u,i)=>`<div class="meeting-card"><div class="meeting-title">#${i+1} ${esc(u.name)} <span class="approved-badge">${esc(u.role)}</span></div><div class="meeting-meta">Messages: <b>${u.messages}</b> · Status: ${esc(u.status||'available')} · ${u.online?'Online':'Offline'}</div></div>`).join('')||'<div class="meeting-meta">No activity yet.</div>'}</div>
+  <div class="a-section"><div class="a-section-title">Latest Audit Log</div>${(res.latestLogs||[]).map(l=>`<div class="log-entry ${l.type}">[${esc(l.t||'')}] ${esc(l.msg||'')}</div>`).join('')||'<div class="meeting-meta">No logs yet.</div>'}</div>`;
+}
+async function renderTwoPlayerPanel(){
+  const body=document.getElementById('gamesBody');if(!body)return;const users=S.users.filter(u=>u.id!==S.user.id && u.approved!==false);const res=await get(`/api/games/sessions?userId=${encodeURIComponent(S.user.id)}`);const games=res.games||[];const panel=document.createElement('div');panel.className='a-section';panel.innerHTML=`<div class="a-section-title">Two-Player Online Games</div><div class="online-game-grid"><div class="online-game-card"><div class="online-game-title">Invite a User</div><select class="holo-input" id="gameInviteUser">${users.map(u=>`<option value="${u.id}">${esc(u.name)} @${esc(u.username)}</option>`).join('')}</select><select class="holo-input" id="gameInviteType"><option value="ttt">Tic Tac Toe</option><option value="connect4">Connect Four</option></select><button class="btn btn-primary" onclick="inviteGame()">Send Game Invite</button></div><div class="online-game-card"><div class="online-game-title">Active Games</div>${games.length?games.map(g=>`<div class="meeting-meta"><button class="btn btn-secondary btn-sm" onclick="renderOnlineGameBoardById('${g.id}')">Open ${g.gameType==='connect4'?'Connect Four':'Tic Tac Toe'} · ${g.status}</button> vs ${esc((g.players||[]).map(id=>S.users.find(u=>u.id===id)?.name||id).join(' / '))}</div>`).join(''):'<div class="meeting-meta">No games yet.</div>'}</div></div><div id="onlineGameBoard"></div>`;body.appendChild(panel);
+}
+async function inviteGame(){const toId=document.getElementById('gameInviteUser')?.value;const gameType=document.getElementById('gameInviteType')?.value||'ttt';if(!toId)return showToast('Select a user first.','warn');const res=await api('/api/games/invite',{fromId:S.user.id,toId,gameType});if(res.ok){showToast('Game invite sent.','success');renderOnlineGameBoard(res.game);}else showToast(res.error||'Invite failed','error');}
+async function respondGame(gameId,status){const res=await api('/api/games/respond',{gameId,userId:S.user.id,status});if(res.ok){showToast(status==='accepted'?'Game accepted.':'Game declined.','success');renderOnlineGameBoard(res.game);}else showToast(res.error||'Game response failed','error');}
 async function renderOnlineGameBoardById(id){const res=await get(`/api/games/sessions?userId=${encodeURIComponent(S.user.id)}`);const g=(res.games||[]).find(x=>x.id===id);if(g)renderOnlineGameBoard(g);}
-function renderOnlineGameBoard(g){window._lastGame=g;const box=document.getElementById('onlineGameBoard');if(!box)return;const me=S.user.id;const myMark=g.players[0]===me?'X':'O';const opp=g.players.find(p=>p!==me);const oppName=S.users.find(u=>u.id===opp)?.name||opp;let status=g.status==='finished'?(g.winner==='draw'?'Draw game':(g.winner===me?'You won!':'Winner: '+oppName)):(g.turn===me?'Your turn':'Waiting for '+oppName);box.innerHTML=`<div class="online-game-card" style="margin-top:14px"><div class="online-game-title">You (${myMark}) vs ${esc(oppName)}</div><div class="online-game-meta">${esc(status)}</div><div class="ttt-online-board">${g.board.map((v,i)=>`<button class="ttt-online-cell" onclick="onlineGameMove('${g.id}',${i})">${v||''}</button>`).join('')}</div></div>`;}
+function renderOnlineGameBoard(g){
+  window._lastGame=g;const box=document.getElementById('onlineGameBoard');if(!box)return;const me=S.user.id;const myMark=g.players[0]===me?'X':'O';const opp=g.players.find(p=>p!==me);const oppName=S.users.find(u=>u.id===opp)?.name||opp;const myResp=g.responses?.[me]||'pending';let status=g.status==='finished'?(g.winner==='draw'?'Draw game':(g.winner===me?'You won!':'Winner: '+oppName)):(g.status==='declined'?'Invitation declined':(g.turn===me?'Your turn':'Waiting for '+oppName));
+  const acceptBtns=g.status==='pending' && myResp==='pending'?`<div class="mr-actions" style="margin:10px 0"><button class="btn btn-secondary btn-sm" onclick="respondGame('${g.id}','accepted')">Accept</button><button class="btn btn-warn btn-sm" onclick="respondGame('${g.id}','declined')">Decline</button></div>`:'';
+  if(g.gameType==='connect4'){
+    box.innerHTML=`<div class="online-game-card" style="margin-top:14px"><div class="online-game-title">Connect Four · You (${myMark}) vs ${esc(oppName)}</div><div class="online-game-meta">${esc(status)}<br>Moves: ${g.moves?.length||0}</div>${acceptBtns}<div class="connect4-board">${Array.from({length:42},(_,i)=>`<button class="connect4-cell ${g.board[i]==='X'?'x':g.board[i]==='O'?'o':''}" ${g.status!=='active'?'disabled':''} onclick="onlineGameMove('${g.id}',${i%7})">${g.board[i]||''}</button>`).join('')}</div>${g.status==='finished'?`<div class="meeting-meta" style="margin-top:10px">Result: ${g.winner==='draw'?'Draw':(g.winner===me?'You won':'Winner: '+esc(oppName))}</div>`:''}</div>`;
+  } else {
+    box.innerHTML=`<div class="online-game-card" style="margin-top:14px"><div class="online-game-title">Tic Tac Toe · You (${myMark}) vs ${esc(oppName)}</div><div class="online-game-meta">${esc(status)}<br>Moves: ${g.moves?.length||0}</div>${acceptBtns}<div class="ttt-online-board">${g.board.map((v,i)=>`<button class="ttt-online-cell" ${g.status!=='active'?'disabled':''} onclick="onlineGameMove('${g.id}',${i})">${v||''}</button>`).join('')}</div>${g.status==='finished'?`<div class="meeting-meta" style="margin-top:10px">Result: ${g.winner==='draw'?'Draw':(g.winner===me?'You won':'Winner: '+esc(oppName))}</div>`:''}</div>`;
+  }
+}
 async function onlineGameMove(id,index){const res=await api('/api/games/move',{gameId:id,userId:S.user.id,index});if(res.ok)renderOnlineGameBoard(res.game);else showToast(res.error||'Move not allowed','warn');}
 
 </script>

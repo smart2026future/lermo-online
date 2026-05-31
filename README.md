@@ -28,13 +28,11 @@ Any device on the **same Wi-Fi network** can connect:
 
 ---
 
-## 🔐 DEFAULT ADMIN LOGIN
+## 🔐 ADMIN SECURITY
 
-```
-Username: admin
-Password: Admin123!
-```
-**Change this password immediately after first login!**
+A first-run administrator account is created automatically.
+For security, the login page no longer shows any default credentials.
+Change the administrator password immediately after first login.
 
 ---
 
@@ -201,3 +199,38 @@ UPLOAD_DIR=/app/backend/data/uploads
 4. Railway will create `DATABASE_URL` automatically for services in the same project.
 5. Redeploy the LERMO service.
 6. Check logs for: `PostgreSQL storage enabled for LERMO.`
+
+## v4 Upgrade Notes
+- Removed the visible default admin credentials from the login page.
+- Added email-based password reset endpoints (requires SMTP_* environment variables).
+- Added scheduled JSON backup snapshots in backend/data/backups or BACKUP_DIR.
+- Added richer user roles: admin, manager, member, guest.
+- Added city suggestions/autocomplete in the weather search box.
+- Improved status synchronization so admin/member status changes update immediately.
+- Enhanced the hologram/glass design across the login page and modules.
+- Added accept/decline flow and result display for two-player online Tic Tac Toe.
+
+
+## v5 Enterprise Additions
+- Optional Cloudflare R2 uploads. If R2 variables are set, file/image uploads go to R2; otherwise they continue using Railway volume/local uploads.
+- Activity Hub with competitive leaderboard, storage status, latest audit log, game counts, and system intelligence.
+- Added Connect Four as a real two-player online game in addition to Tic Tac Toe.
+- Multiplayer games now support invitation accept/decline and result display.
+
+### Cloudflare R2 variables
+Set these in Railway only if you want R2 uploads:
+```
+R2_ACCOUNT_ID=your_cloudflare_account_id
+R2_ACCESS_KEY_ID=your_r2_access_key
+R2_SECRET_ACCESS_KEY=your_r2_secret
+R2_BUCKET=your_bucket_name
+R2_PUBLIC_URL=https://your-public-r2-domain-or-custom-domain
+```
+
+### Railway volume fallback
+If you do not set R2, keep:
+```
+UPLOAD_DIR=/app/data/uploads
+BACKUP_DIR=/app/data/backups
+```
+Then attach a Railway volume mounted at `/app/data`.
