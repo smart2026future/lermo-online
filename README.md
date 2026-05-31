@@ -234,3 +234,9 @@ UPLOAD_DIR=/app/data/uploads
 BACKUP_DIR=/app/data/backups
 ```
 Then attach a Railway volume mounted at `/app/data`.
+
+## v6 Hologram Redesign Notes
+- Strong visual redesign with hologram animated background, glass cards, command-station chat layout, mission strip, and redesigned login screen.
+- Settings module rebuilt as Personal Command Profile with identity, appearance, sound, and quick actions.
+- Admin module upgraded visually to Hologram Admin Command Center with command stats, access control, audit timeline, and storage/backup panel.
+- Activity Hub is now loaded from the sidebar and shows intelligence/leaderboard/storage details.
