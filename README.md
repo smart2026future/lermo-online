@@ -156,3 +156,48 @@ Tech Stack: Node.js + Express + WebSockets + Vanilla JS
 - Added nickname/job title during registration and profile settings. It is displayed under names in chat/member lists.
 - Improved dark mode readability with bright white/gold text and added font/text color controls.
 - Added Smart Tools quick message helpers in Settings.
+
+## Production Upgrade Notes - v3
+
+This package adds production-focused security and online features.
+
+### Security and database
+- Passwords are now hashed with bcrypt. Existing plain-text users are migrated automatically on next login.
+- New registrations can require admin approval. By default `AUTO_APPROVE_USERS=false`, so the admin approves users from Admin Panel.
+- Admin actions are checked server-side before changing users, rooms, backups, or approvals.
+- PostgreSQL is supported through Railway. Add a Railway PostgreSQL database and set `DATABASE_URL`; LERMO will store users, rooms, messages, meetings, games, settings, and logs in PostgreSQL automatically.
+- If `DATABASE_URL` is not set, LERMO still works using JSON files for local testing.
+
+### New features
+- Book meetings between users from the new Meetings screen.
+- Users can accept or decline meeting invitations.
+- Notification sound plays when new messages, meeting invitations, or game invitations arrive.
+- Two-player online Tic Tac Toe is available from Games.
+- Big Ben chime remains available in Settings > Design Studio.
+- Admin can export a complete backup from Admin Panel.
+
+### Railway recommended settings
+Use the repository root as Railway root directory:
+
+```
+Root Directory: /
+Build Command: npm run build
+Start Command: npm start
+```
+
+Optional variables:
+
+```
+DATABASE_URL=provided by Railway PostgreSQL
+JWT_SECRET=your-long-random-secret
+AUTO_APPROVE_USERS=false
+UPLOAD_DIR=/app/backend/data/uploads
+```
+
+### PostgreSQL setup on Railway
+1. Open your Railway project.
+2. Click Add/New.
+3. Add PostgreSQL.
+4. Railway will create `DATABASE_URL` automatically for services in the same project.
+5. Redeploy the LERMO service.
+6. Check logs for: `PostgreSQL storage enabled for LERMO.`

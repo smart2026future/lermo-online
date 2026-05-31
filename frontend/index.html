@@ -387,6 +387,8 @@ body,.app,.screen,.header,.sidebar,.right-panel,.chat-area,.a-section,.settings-
 .notify-wrap{position:relative}.notify-btn{position:relative;width:34px;height:34px;border-radius:10px;border:1px solid var(--border2);background:rgba(255,255,255,.04);color:var(--text);cursor:pointer;font-size:16px}.notify-btn:hover{box-shadow:0 0 16px rgba(247,201,72,.25);border-color:var(--accent2)}.notify-btn.has-new{animation:bellFlash 1s infinite;background:rgba(247,201,72,.12);color:var(--accent2)}@keyframes bellFlash{0%,100%{box-shadow:0 0 0 rgba(247,201,72,0)}50%{box-shadow:0 0 18px rgba(247,201,72,.65)}}.notify-count{position:absolute;top:-5px;right:-5px;min-width:18px;height:18px;border-radius:999px;background:var(--danger);color:white;font-size:10px;font-weight:900;display:none;align-items:center;justify-content:center;padding:0 5px}.notify-count.show{display:flex}.notify-panel{position:fixed;right:16px;top:104px;width:min(360px,calc(100vw - 24px));max-height:420px;overflow:auto;background:var(--card);border:1px solid var(--border2);border-radius:16px;box-shadow:var(--shadow);z-index:700;display:none;padding:10px}.notify-panel.show{display:block}.notify-head{display:flex;align-items:center;justify-content:space-between;padding:6px 6px 12px;border-bottom:1px solid var(--border)}.notify-title{font-weight:900;color:var(--text)}.notify-item{padding:10px;border-bottom:1px solid var(--border);cursor:pointer}.notify-item:hover{background:rgba(255,255,255,.05)}.notify-from{font-size:12px;font-weight:800;color:var(--accent2)}.notify-text{font-size:12px;color:var(--text);margin-top:3px;line-height:1.35}.notify-empty{padding:18px;text-align:center;color:var(--text2);font-size:12px}
 .msg-job{display:block;font-size:10px;color:var(--accent2);font-weight:800;margin-top:1px;letter-spacing:.2px}.profile-job{font-size:11px;color:var(--accent2);font-weight:800;margin-top:2px}.admin-edit-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:8px;margin-top:8px}.admin-edit-grid .holo-input{margin-bottom:0;padding:8px 10px;font-size:12px}.admin-user-card{padding:12px;border:1px solid var(--border);border-radius:14px;margin-bottom:10px;background:rgba(255,255,255,.035)}.admin-user-top{display:flex;gap:10px;align-items:center}.control-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}.tiny-label{font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--text2);font-weight:800;margin-bottom:4px}.font-preview{padding:10px;border:1px dashed var(--border2);border-radius:12px;background:rgba(255,255,255,.04)}.smart-tools{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}.smart-card{padding:12px;border:1px solid var(--border);border-radius:14px;background:linear-gradient(135deg,rgba(43,124,255,.12),rgba(247,201,72,.07));cursor:pointer}.smart-card:hover{transform:translateY(-1px);border-color:var(--accent2)}.smart-card b{display:block;color:var(--text);margin-bottom:4px}.smart-card span{font-size:11px;color:var(--text2)}
 
+
+.meeting-grid,.online-game-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}.meeting-card,.online-game-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px}.meeting-title,.online-game-title{font-weight:800;color:var(--text);margin-bottom:6px}.meeting-meta,.online-game-meta{font-size:12px;color:var(--text2);line-height:1.5}.ttt-online-board{display:grid;grid-template-columns:repeat(3,70px);gap:8px;margin:14px 0}.ttt-online-cell{height:70px;border-radius:14px;border:1px solid var(--border2);background:rgba(255,255,255,.04);font-size:32px;font-weight:900;color:var(--text);cursor:pointer}.pending-badge{display:inline-flex;padding:2px 7px;border-radius:99px;background:rgba(245,158,11,.15);border:1px solid rgba(245,158,11,.35);font-size:10px;color:var(--gold);font-weight:800}.approved-badge{display:inline-flex;padding:2px 7px;border-radius:99px;background:rgba(22,163,74,.15);border:1px solid rgba(22,163,74,.35);font-size:10px;color:#4ade80;font-weight:800}
 </style>
 </head>
 <body>
@@ -615,6 +617,7 @@ body,.app,.screen,.header,.sidebar,.right-panel,.chat-area,.a-section,.settings-
           <button class="btn btn-secondary btn-sm" id="btnAdmin" style="display:none" onclick="showScreen('screenAdmin')">&#x2699; Admin Panel</button>
           <button class="btn btn-secondary btn-sm" onclick="showScreen('screenStats')">&#x1F4CA; Statistics</button>
           <button class="btn btn-secondary btn-sm" onclick="showScreen('screenGames')">&#x1F3AE; Games</button>
+          <button class="btn btn-secondary btn-sm" onclick="showScreen('screenMeetings')">&#x1F4C5; Meetings</button>
           <button class="btn btn-secondary btn-sm" onclick="showScreen('screenSettings')">&#x25C8; Settings</button>
           <button class="btn btn-secondary btn-sm" onclick="openModal('modalChangePwd')">&#x1F511; Change Password</button>
         </div>
@@ -659,6 +662,7 @@ body,.app,.screen,.header,.sidebar,.right-panel,.chat-area,.a-section,.settings-
       <div class="stat-grid" id="adminStats"></div>
       <div class="a-section"><div class="a-section-title">Member Management</div><div id="adminMembers"></div></div>
       <div class="a-section"><div class="a-section-title">Room Management</div><div id="adminRooms"></div></div>
+      <div class="a-section"><div class="a-section-title">Backup & Recovery</div><button class="btn btn-secondary" onclick="downloadBackup()">Download Full Backup</button><div class="settings-desc" style="margin-top:8px">Exports users, rooms, messages, meetings, games and logs.</div></div>
       <div class="a-section"><div class="a-section-title">Security Log</div><div class="sec-log" id="adminLog"></div></div>
     </div>
   </div>
@@ -679,6 +683,17 @@ body,.app,.screen,.header,.sidebar,.right-panel,.chat-area,.a-section,.settings-
       <div class="admin-h1">&#x1F3AE; Games</div>
     </div>
     <div id="gamesBody" style="flex:1;overflow:auto;display:flex;flex-direction:column"></div>
+  </div>
+
+
+
+  <!-- MEETINGS SCREEN -->
+  <div class="screen meetings-screen" id="screenMeetings">
+    <div class="admin-topbar">
+      <button class="btn btn-secondary btn-sm" onclick="backToChat()">&#x2190; Back</button>
+      <div class="admin-h1">&#x1F4C5; Book Meetings</div>
+    </div>
+    <div class="admin-body" id="meetingsBody"></div>
   </div>
 
   <!-- SETTINGS SCREEN -->
@@ -948,7 +963,7 @@ async function login(){
   if(!u||!p){showErr('l-err','Please fill in all fields.');return;}
   try{
     const res=await api('/api/login',{username:u,password:p});
-    if(!res.ok){showErr('l-err','Invalid username or password.');return;}
+    if(!res.ok){showErr('l-err',res.error==='pending_approval'?'Your account is waiting for admin approval.':'Invalid username or password.');return;}
     S.user=res.user;
     if(res.user.lang){S.lang=res.user.lang;localStorage.setItem('ll',S.lang);}
     if(res.user.theme){S.theme=res.user.theme;localStorage.setItem('lt',S.theme);}
@@ -974,6 +989,7 @@ async function register(){
       if(res.error==='username_taken'){showErr('r-err','Username already taken.');return;}
       showErr('r-err','Registration failed.');return;
     }
+    if(res.pendingApproval){showOk('r-err','Registration sent. Please wait for admin approval before signing in.');switchAuth('login');return;}
     S.user=res.user;applyTheme(S.theme);applyLang(S.lang);enterApp();showToast('Welcome to LERMO! ✓','success');
   }catch{showErr('r-err','Cannot connect to server.');}
 }
@@ -1012,6 +1028,7 @@ function showScreen(id){
   if(id==='screenSettings')renderSettings();
   if(id==='screenStats')renderStats();
   if(id==='screenGames')renderGamesMenu();
+  if(id==='screenMeetings')renderMeetings();
   closeSidebar();
 }
 function backToChat(){showScreen('screenMain');if(S.currentRoom)openRoom(S.currentRoom);}
@@ -1282,14 +1299,15 @@ async function renderAdmin(){
     <div class="stat-card sc-navy"><div class="stat-big sb-navy">${sr.totalUsers||0}</div><div class="stat-lbl">Total Members</div></div>
     <div class="stat-card sc-red"><div class="stat-big sb-red">${sr.totalRooms||0}</div><div class="stat-lbl">Active Rooms</div></div>
     <div class="stat-card sc-green"><div class="stat-big sb-green">${sr.onlineUsers||0}</div><div class="stat-lbl">Online Now</div></div>
-    <div class="stat-card sc-gold"><div class="stat-big sb-gold">${sr.totalMessages||0}</div><div class="stat-lbl">Total Messages</div></div>`;
+    <div class="stat-card sc-gold"><div class="stat-big sb-gold">${sr.totalMessages||0}</div><div class="stat-lbl">Total Messages</div></div>
+    <div class="stat-card sc-red"><div class="stat-big sb-red">${users.filter(u=>u.approved===false).length}</div><div class="stat-lbl">Pending Approval</div></div>`;
   const ml=document.getElementById('adminMembers');ml.innerHTML='';
   users.forEach(u=>{
     const safeId=String(u.id).replace(/[^a-z0-9_\-]/gi,'_');
     const row=document.createElement('div');row.className='admin-user-card';
     row.innerHTML=`<div class="admin-user-top">
       <div class="avatar av-sm av-${clr(u.color)}">${u.avatar||ini(u.name)}</div>
-      <div class="mr-info"><div class="mr-name">${esc(u.name)} ${u.id==='admin'?'👑':''}</div><div class="mr-sub">@${esc(u.username)} · ${esc(u.role)} · ${u.online?'🟢 Online':'⚫ Offline'}${u.passwordReset?' · ⚠ Pwd Reset':''}<br>${esc(u.jobTitle||'No job title')}</div></div>
+      <div class="mr-info"><div class="mr-name">${esc(u.name)} ${u.id==='admin'?'👑':''}</div><div class="mr-sub">@${esc(u.username)} · ${esc(u.role)} · ${u.online?'🟢 Online':'⚫ Offline'}${u.passwordReset?' · ⚠ Pwd Reset':''} · ${u.approved===false?'<span class="pending-badge">PENDING</span>':'<span class="approved-badge">APPROVED</span>'}<br>${esc(u.jobTitle||'No job title')}</div></div>
       </div>
       <div class="admin-edit-grid">
         <input class="holo-input" id="au_name_${safeId}" value="${esc(u.name)}" placeholder="Full name">
@@ -1302,7 +1320,7 @@ async function renderAdmin(){
       </div>
       <div class="mr-actions" style="margin-top:10px;justify-content:flex-end">
         <button class="btn btn-secondary btn-sm" onclick="adminSaveUser('${safeId}')">Save Changes</button>
-        ${u.id!=='admin'?`<button class="btn btn-warn btn-sm" onclick="openResetPwd('${u.id}','${esc(u.name)}')">Reset Pwd</button><button class="btn btn-danger btn-sm" onclick="openRemoveMember('${u.id}','${esc(u.name)}')">Remove</button>`:''}
+        ${u.id!=='admin'?`<button class="btn btn-secondary btn-sm" onclick="adminApproveUser('${u.id}',${u.approved===false?'true':'false'})">${u.approved===false?'Approve':'Suspend'}</button><button class="btn btn-warn btn-sm" onclick="openResetPwd('${u.id}','${esc(u.name)}')">Reset Pwd</button><button class="btn btn-danger btn-sm" onclick="openRemoveMember('${u.id}','${esc(u.name)}')">Remove</button>`:''}
       </div>`;
     ml.appendChild(row);
   });
@@ -1629,6 +1647,49 @@ function initTopWidgets(){
 }
 if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',initTopWidgets);
 else initTopWidgets();
+
+
+
+/* LERMO v3 production upgrades: approval, meetings, online games, sounds */
+let notifyAudioCtx=null;
+function enableNotifyAudio(){try{notifyAudioCtx=notifyAudioCtx||new (window.AudioContext||window.webkitAudioContext)();notifyAudioCtx.resume?.();return true;}catch{return false;}}
+function notifyTone(){if(!notifyAudioCtx&&!enableNotifyAudio())return;const now=notifyAudioCtx.currentTime;[880,1174,1568].forEach((f,i)=>{const o=notifyAudioCtx.createOscillator(),g=notifyAudioCtx.createGain();o.type='triangle';o.frequency.value=f;o.connect(g);g.connect(notifyAudioCtx.destination);g.gain.setValueAtTime(0,now+i*.08);g.gain.linearRampToValueAtTime(.075,now+i*.08+.015);g.gain.exponentialRampToValueAtTime(.001,now+i*.08+.23);o.start(now+i*.08);o.stop(now+i*.08+.26);});}
+document.addEventListener('click',()=>enableNotifyAudio(),{once:true});
+const _oldAddNotification=addNotification;
+addNotification=function(m){_oldAddNotification(m);notifyTone();};
+const _oldHandleWS=handleWS;
+handleWS=function(msg){
+  if(msg.type==='meeting_created'){if(msg.meeting?.participants?.includes(S.user?.id)){addNotification({roomId:S.currentRoom||'general',name:'Meeting',text:'Meeting invitation: '+msg.meeting.title});if(document.getElementById('screenMeetings')?.classList.contains('active'))renderMeetings();}return;}
+  if(msg.type==='meeting_updated'){if(document.getElementById('screenMeetings')?.classList.contains('active'))renderMeetings();return;}
+  if(msg.type==='game_invite'){if(msg.game?.players?.includes(S.user?.id)){addNotification({roomId:S.currentRoom||'games',name:'Game',text:'Game invitation received'});if(document.getElementById('screenGames')?.classList.contains('active'))renderGamesMenu();}return;}
+  if(msg.type==='game_updated'){window._lastGame=msg.game;if(document.getElementById('screenGames')?.classList.contains('active'))renderOnlineGameBoard(msg.game);return;}
+  return _oldHandleWS(msg);
+};
+async function adminApproveUser(id,approved){const res=await api('/api/admin/approve-user',{adminId:S.user.id,targetId:id,approved});if(res.ok){showToast(approved?'User approved.':'User suspended.','success');renderAdmin();}else showToast(res.error||'Approval failed','error');}
+function downloadBackup(){if(!S.user)return;window.open(`/api/admin/backup?adminId=${encodeURIComponent(S.user.id)}`,'_blank');}
+async function renderMeetings(){
+  const body=document.getElementById('meetingsBody');if(!body)return;
+  const users=S.users.filter(u=>u.id!==S.user.id && u.approved!==false);
+  const res=await get(`/api/meetings?userId=${encodeURIComponent(S.user.id)}`);
+  const meetings=res.meetings||[];
+  body.innerHTML=`<div class="a-section"><div class="a-section-title">Book a Meeting</div><div class="meeting-grid">
+    <div><div class="tiny-label">Title</div><input class="holo-input" id="mtgTitle" placeholder="Project review / team call"></div>
+    <div><div class="tiny-label">Start</div><input class="holo-input" id="mtgStart" type="datetime-local"></div>
+    <div><div class="tiny-label">End</div><input class="holo-input" id="mtgEnd" type="datetime-local"></div>
+    <div><div class="tiny-label">Invite Users</div><select class="holo-input" id="mtgUsers" multiple size="4">${users.map(u=>`<option value="${u.id}">${esc(u.name)} @${esc(u.username)}</option>`).join('')}</select></div>
+  </div><div><div class="tiny-label">Notes</div><textarea class="holo-input" id="mtgNotes" placeholder="Agenda or link..." rows="3"></textarea></div><button class="btn btn-primary" style="max-width:220px" onclick="createMeeting()">Create Meeting</button></div>
+  <div class="a-section"><div class="a-section-title">My Meetings</div>${meetings.length?meetings.map(renderMeetingCard).join(''):'<div style="color:var(--text3);font-size:13px">No meetings yet.</div>'}</div>`;
+}
+function renderMeetingCard(m){const names=(m.participants||[]).map(id=>S.users.find(u=>u.id===id)?.name||id).join(', ');const st=m.status?.[S.user.id]||'pending';return `<div class="meeting-card"><div class="meeting-title">${esc(m.title)}</div><div class="meeting-meta">${new Date(m.start).toLocaleString()}${m.end?' → '+new Date(m.end).toLocaleString():''}<br>Participants: ${esc(names)}<br>Your status: <b>${esc(st)}</b>${m.notes?'<br>Notes: '+esc(m.notes):''}</div><div class="mr-actions" style="margin-top:10px"><button class="btn btn-secondary btn-sm" onclick="meetingRespond('${m.id}','accepted')">Accept</button><button class="btn btn-warn btn-sm" onclick="meetingRespond('${m.id}','declined')">Decline</button></div></div>`;}
+async function createMeeting(){const participants=[...document.getElementById('mtgUsers').selectedOptions].map(o=>o.value);const body={createdBy:S.user.id,title:document.getElementById('mtgTitle').value,start:document.getElementById('mtgStart').value,end:document.getElementById('mtgEnd').value,participants,notes:document.getElementById('mtgNotes').value};const res=await api('/api/meetings',body);if(res.ok){showToast('Meeting created and invitations sent.','success');renderMeetings();}else showToast(res.error||'Meeting failed','error');}
+async function meetingRespond(id,status){const res=await api('/api/meetings/respond',{userId:S.user.id,meetingId:id,status});if(res.ok){showToast('Meeting response saved.','success');renderMeetings();}else showToast(res.error||'Response failed','error');}
+const _oldRenderGamesMenu=renderGamesMenu;
+renderGamesMenu=async function(){_oldRenderGamesMenu();setTimeout(renderTwoPlayerPanel,0);};
+async function renderTwoPlayerPanel(){const body=document.getElementById('gamesBody');if(!body)return;const users=S.users.filter(u=>u.id!==S.user.id && u.approved!==false);const res=await get(`/api/games/sessions?userId=${encodeURIComponent(S.user.id)}`);const games=res.games||[];const panel=document.createElement('div');panel.className='a-section';panel.innerHTML=`<div class="a-section-title">Two-Player Online Tic Tac Toe</div><div class="online-game-grid"><div class="online-game-card"><div class="online-game-title">Invite a User</div><select class="holo-input" id="gameInviteUser">${users.map(u=>`<option value="${u.id}">${esc(u.name)} @${esc(u.username)}</option>`).join('')}</select><button class="btn btn-primary" onclick="inviteGame()">Send Game Invite</button></div><div class="online-game-card"><div class="online-game-title">Active Games</div>${games.length?games.map(g=>`<div class="meeting-meta"><button class="btn btn-secondary btn-sm" onclick="renderOnlineGameBoardById('${g.id}')">Open ${g.status} game</button> vs ${esc((g.players||[]).map(id=>S.users.find(u=>u.id===id)?.name||id).join(' / '))}</div>`).join(''):'<div class="meeting-meta">No games yet.</div>'}</div></div><div id="onlineGameBoard"></div>`;body.appendChild(panel);}
+async function inviteGame(){const toId=document.getElementById('gameInviteUser')?.value;if(!toId)return showToast('Select a user first.','warn');const res=await api('/api/games/invite',{fromId:S.user.id,toId,gameType:'ttt'});if(res.ok){showToast('Game invite sent.','success');renderOnlineGameBoard(res.game);}else showToast(res.error||'Invite failed','error');}
+async function renderOnlineGameBoardById(id){const res=await get(`/api/games/sessions?userId=${encodeURIComponent(S.user.id)}`);const g=(res.games||[]).find(x=>x.id===id);if(g)renderOnlineGameBoard(g);}
+function renderOnlineGameBoard(g){window._lastGame=g;const box=document.getElementById('onlineGameBoard');if(!box)return;const me=S.user.id;const myMark=g.players[0]===me?'X':'O';const opp=g.players.find(p=>p!==me);const oppName=S.users.find(u=>u.id===opp)?.name||opp;let status=g.status==='finished'?(g.winner==='draw'?'Draw game':(g.winner===me?'You won!':'Winner: '+oppName)):(g.turn===me?'Your turn':'Waiting for '+oppName);box.innerHTML=`<div class="online-game-card" style="margin-top:14px"><div class="online-game-title">You (${myMark}) vs ${esc(oppName)}</div><div class="online-game-meta">${esc(status)}</div><div class="ttt-online-board">${g.board.map((v,i)=>`<button class="ttt-online-cell" onclick="onlineGameMove('${g.id}',${i})">${v||''}</button>`).join('')}</div></div>`;}
+async function onlineGameMove(id,index){const res=await api('/api/games/move',{gameId:id,userId:S.user.id,index});if(res.ok)renderOnlineGameBoard(res.game);else showToast(res.error||'Move not allowed','warn');}
 
 </script>
 </body>

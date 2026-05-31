@@ -6,6 +6,10 @@ import os from 'os';
 import http from 'http';
 import { WebSocketServer } from 'ws';
 import { fileURLToPath } from 'url';
+import crypto from 'crypto';
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+import { Pool } from 'pg';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -19,8 +23,17 @@ const USERS_FILE = path.join(DATA_DIR, 'users.json');
 const ROOMS_FILE = path.join(DATA_DIR, 'rooms.json');
 const MSGS_FILE  = path.join(DATA_DIR, 'messages.json');
 const LOGS_FILE  = path.join(DATA_DIR, 'logs.json');
-const FILES_DIR  = path.join(DATA_DIR, 'uploads');
+const FILES_DIR  = process.env.UPLOAD_DIR || path.join(DATA_DIR, 'uploads');
+const MEETINGS_FILE = path.join(DATA_DIR, 'meetings.json');
+const GAME_FILE  = path.join(DATA_DIR, 'games.json');
+const SETTINGS_FILE = path.join(DATA_DIR, 'settings.json');
 const UI_DIR     = path.join(__dirname, '..', 'frontend');
+const JWT_SECRET = process.env.JWT_SECRET || crypto.randomBytes(32).toString('hex');
+const AUTO_APPROVE_USERS = String(process.env.AUTO_APPROVE_USERS || 'false').toLowerCase() === 'true';
+const DATABASE_URL = process.env.DATABASE_URL || '';
+let pgPool = null;
+let pgReady = false;
+const kvCache = new Map();
 
 app.use('/', express.static(UI_DIR, { etag: false, maxAge: 0 }));
 app.use('/uploads', express.static(FILES_DIR));
@@ -53,16 +66,84 @@ function ensureData() {
   }
   if (!fs.existsSync(MSGS_FILE))  fs.writeFileSync(MSGS_FILE,  JSON.stringify({ messages:{} }, null, 2));
   if (!fs.existsSync(LOGS_FILE))  fs.writeFileSync(LOGS_FILE,  JSON.stringify({ logs:[] }, null, 2));
+  if (!fs.existsSync(MEETINGS_FILE)) fs.writeFileSync(MEETINGS_FILE, JSON.stringify({ meetings:[] }, null, 2));
+  if (!fs.existsSync(GAME_FILE)) fs.writeFileSync(GAME_FILE, JSON.stringify({ games:[] }, null, 2));
+  if (!fs.existsSync(SETTINGS_FILE)) fs.writeFileSync(SETTINGS_FILE, JSON.stringify({ settings:{} }, null, 2));
 }
 
+const KEY_BY_FILE = new Map([
+  [USERS_FILE,'users'], [ROOMS_FILE,'rooms'], [MSGS_FILE,'messages'], [LOGS_FILE,'logs'],
+  [MEETINGS_FILE,'meetings'], [GAME_FILE,'games'], [SETTINGS_FILE,'settings']
+]);
 function loadJson(file, fallback) {
   ensureData();
+  const key = KEY_BY_FILE.get(file);
+  if (pgReady && key && kvCache.has(key)) return structuredClone(kvCache.get(key));
   try { return JSON.parse(fs.readFileSync(file,'utf8')); } catch { return fallback; }
 }
 function saveJson(file, data) {
   ensureData();
   fs.writeFileSync(file, JSON.stringify(data, null, 2), 'utf8');
+  const key = KEY_BY_FILE.get(file);
+  if (pgReady && key) {
+    kvCache.set(key, structuredClone(data));
+    pgPool.query('insert into lermo_kv(key,value,updated_at) values($1,$2,now()) on conflict(key) do update set value=excluded.value, updated_at=now()', [key, data]).catch(e=>console.error('Postgres save failed:', e.message));
+  }
 }
+async function initPostgres() {
+  ensureData();
+  if (!DATABASE_URL) return;
+  try {
+    pgPool = new Pool({ connectionString: DATABASE_URL, ssl: process.env.PGSSLMODE === 'disable' ? false : { rejectUnauthorized:false } });
+    await pgPool.query('create table if not exists lermo_kv (key text primary key, value jsonb not null, updated_at timestamptz default now())');
+    for (const [file,key] of KEY_BY_FILE.entries()) {
+      let localFallback = {};
+      if (key === 'users') localFallback = {users:[]};
+      if (key === 'rooms') localFallback = {rooms:[]};
+      if (key === 'messages') localFallback = {messages:{}};
+      if (key === 'logs') localFallback = {logs:[]};
+      if (key === 'meetings') localFallback = {meetings:[]};
+      if (key === 'games') localFallback = {games:[]};
+      if (key === 'settings') localFallback = {settings:{}};
+      const found = await pgPool.query('select value from lermo_kv where key=$1', [key]);
+      if (found.rows[0]) kvCache.set(key, found.rows[0].value);
+      else {
+        const local = JSON.parse(fs.readFileSync(file,'utf8') || JSON.stringify(localFallback));
+        kvCache.set(key, local);
+        await pgPool.query('insert into lermo_kv(key,value) values($1,$2) on conflict do nothing', [key, local]);
+      }
+    }
+    pgReady = true;
+    console.log('PostgreSQL storage enabled for LERMO.');
+  } catch (e) {
+    console.error('PostgreSQL disabled; falling back to JSON files:', e.message);
+    pgReady = false;
+  }
+}
+function signToken(user){return jwt.sign({id:user.id,role:user.role},JWT_SECRET,{expiresIn:'12h'});}
+function safeUser(user){const {password, passwordHash, ...safe}=user;return safe;}
+function ensureSecurityDefaults(db){
+  let changed=false;
+  for (const u of db.users||[]) {
+    if (u.approved === undefined) { u.approved = true; changed = true; }
+    if (!u.status) { u.status = 'available'; changed = true; }
+    if (!u.role) { u.role = u.id==='admin'?'admin':'member'; changed = true; }
+  }
+  return changed;
+}
+async function verifyPassword(user,password){
+  if (!user) return false;
+  if (user.passwordHash) return bcrypt.compare(password, user.passwordHash);
+  if (user.password && user.password === password) {
+    user.passwordHash = await bcrypt.hash(password, 12);
+    delete user.password;
+    return true;
+  }
+  return false;
+}
+async function setUserPassword(user,password){ user.passwordHash = await bcrypt.hash(String(password),12); delete user.password; }
+function requireAdminUser(db,adminId){const admin=(db.users||[]).find(u=>u.id===adminId);return admin && admin.role==='admin' && admin.approved!==false ? admin : null;}
+function backupPayload(){return {exportedAt:new Date().toISOString(), storage: pgReady?'postgresql':'json', users:loadJson(USERS_FILE,{users:[]}), rooms:loadJson(ROOMS_FILE,{rooms:[]}), messages:loadJson(MSGS_FILE,{messages:{}}), meetings:loadJson(MEETINGS_FILE,{meetings:[]}), games:loadJson(GAME_FILE,{games:[]}), logs:loadJson(LOGS_FILE,{logs:[]}), settings:loadJson(SETTINGS_FILE,{settings:{}})};}
 function addLog(type, msg) {
   const db = loadJson(LOGS_FILE,{logs:[]});
   const t = new Date().toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
@@ -79,17 +160,18 @@ function broadcast(data) {
 }
 
 // ── AUTH ──────────────────────────────────────────────────
-app.post('/api/login', (req,res) => {
+app.post('/api/login', async (req,res) => {
   const {username,password} = req.body;
   const db = loadJson(USERS_FILE,{users:[]});
-  const user = db.users.find(u=>u.username===username && u.password===password);
-  if (!user) return res.json({ok:false,error:'invalid_credentials'});
+  if (ensureSecurityDefaults(db)) saveJson(USERS_FILE,db);
+  const user = db.users.find(u=>u.username===username);
+  if (!user || !(await verifyPassword(user,password))) return res.json({ok:false,error:'invalid_credentials'});
+  if (user.approved === false) return res.json({ok:false,error:'pending_approval'});
   user.online=true; user.lastSeen=new Date().toISOString();
   saveJson(USERS_FILE,db);
   addLog('auth',`Login: @${username}`);
   broadcast({type:'presence',userId:user.id,online:true,name:user.name});
-  const {password:_p,...safe}=user;
-  res.json({ok:true,user:safe});
+  res.json({ok:true,user:safeUser(user),token:signToken(user)});
 });
 
 app.post('/api/logout', (req,res) => {
@@ -102,7 +184,7 @@ app.post('/api/logout', (req,res) => {
   res.json({ok:true});
 });
 
-app.post('/api/register', (req,res) => {
+app.post('/api/register', async (req,res) => {
   const {username,name,email,password,color,avatar,jobTitle}=req.body;
   const db=loadJson(USERS_FILE,{users:[]});
   if (!username||!name||!email||!password) return res.json({ok:false,error:'missing_fields'});
@@ -111,28 +193,28 @@ app.post('/api/register', (req,res) => {
   if (password.length<6) return res.json({ok:false,error:'password_short'});
   const COLORS=['navy','crimson','teal','olive','slate','burgundy','forest','amber'];
   const newUser={
-    id:username,username,name,email,password,role:'member',
+    id:username,username,name,email,role:'member',approved:AUTO_APPROVE_USERS,
     color:color||COLORS[db.users.length%COLORS.length],
     avatar:avatar||name.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2),
     lang:'en',theme:'dark',createdAt:new Date().toISOString(),
     online:true,passwordReset:false,bio:'',status:'available',jobTitle:jobTitle||'',lastSeen:new Date().toISOString()
   };
+  await setUserPassword(newUser,password);
   db.users.push(newUser);
   saveJson(USERS_FILE,db);
   addLog('auth',`Register: @${username}`);
   broadcast({type:'user_joined',user:{...newUser,password:undefined}});
-  const {password:_p,...safe}=newUser;
-  res.json({ok:true,user:safe});
+  res.json({ok:true,user:safeUser(newUser),pendingApproval:!newUser.approved});
 });
 
-app.post('/api/change-password',(req,res)=>{
+app.post('/api/change-password',async (req,res)=>{
   const {userId,oldPassword,newPassword}=req.body;
   const db=loadJson(USERS_FILE,{users:[]});
   const user=db.users.find(u=>u.id===userId);
   if (!user) return res.json({ok:false,error:'not_found'});
-  if (user.password!==oldPassword) return res.json({ok:false,error:'wrong_password'});
-  if (newPassword.length<6) return res.json({ok:false,error:'password_short'});
-  user.password=newPassword;user.passwordReset=false;
+  if (!(await verifyPassword(user,oldPassword))) return res.json({ok:false,error:'wrong_password'});
+  if (newPassword.length<8) return res.json({ok:false,error:'password_short'});
+  await setUserPassword(user,newPassword);user.passwordReset=false;
   saveJson(USERS_FILE,db);
   addLog('auth',`Password changed: @${userId}`);
   res.json({ok:true});
@@ -156,26 +238,27 @@ app.post('/api/update-prefs',(req,res)=>{
 // ── ADMIN ─────────────────────────────────────────────────
 app.get('/api/admin/users',(req,res)=>{
   const db=loadJson(USERS_FILE,{users:[]});
-  res.json({ok:true,users:db.users.map(({password:_p,...u})=>u)});
+  if (ensureSecurityDefaults(db)) saveJson(USERS_FILE,db);
+  res.json({ok:true,users:db.users.map(safeUser)});
 });
-app.post('/api/admin/reset-password',(req,res)=>{
+app.post('/api/admin/reset-password',async (req,res)=>{
   const {adminId,targetId,newPassword}=req.body;
   const db=loadJson(USERS_FILE,{users:[]});
-  const admin=db.users.find(u=>u.id===adminId);
-  if (!admin||admin.role!=='admin') return res.json({ok:false,error:'not_admin'});
+  const admin=requireAdminUser(db,adminId);
+  if (!admin) return res.json({ok:false,error:'not_admin'});
   const target=db.users.find(u=>u.id===targetId);
   if (!target) return res.json({ok:false,error:'not_found'});
-  if (newPassword.length<6) return res.json({ok:false,error:'password_short'});
-  target.password=newPassword;target.passwordReset=true;
+  if (newPassword.length<8) return res.json({ok:false,error:'password_short'});
+  await setUserPassword(target,newPassword);target.passwordReset=true;
   saveJson(USERS_FILE,db);
   addLog('admin',`Password reset: @${targetId} by admin`);
   res.json({ok:true});
 });
-app.post('/api/admin/update-user',(req,res)=>{
+app.post('/api/admin/update-user',async (req,res)=>{
   const {adminId,targetId,name,username,email,jobTitle,role,color,password}=req.body;
   const db=loadJson(USERS_FILE,{users:[]});
-  const admin=db.users.find(u=>u.id===adminId);
-  if (!admin||admin.role!=='admin') return res.json({ok:false,error:'not_admin'});
+  const admin=requireAdminUser(db,adminId);
+  if (!admin) return res.json({ok:false,error:'not_admin'});
   const user=db.users.find(u=>u.id===targetId);
   if (!user) return res.json({ok:false,error:'not_found'});
   if (name!==undefined && String(name).trim()) user.name=String(name).trim().slice(0,80);
@@ -189,22 +272,22 @@ app.post('/api/admin/update-user',(req,res)=>{
     if (clean!==user.username && db.users.find(u=>u.username===clean)) return res.json({ok:false,error:'username_taken'});
     user.username=clean;
   }
+  if (req.body.approved!==undefined && user.id!=='admin') user.approved=!!req.body.approved;
   if (password!==undefined && String(password).trim()) {
-    if (String(password).length<6) return res.json({ok:false,error:'password_short'});
-    user.password=String(password);user.passwordReset=true;
+    if (String(password).length<8) return res.json({ok:false,error:'password_short'});
+    await setUserPassword(user,String(password));user.passwordReset=true;
   }
   user.avatar=user.avatar||user.name.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
   saveJson(USERS_FILE,db);
   addLog('admin',`User updated: @${user.id} by @${adminId}`);
-  const {password:_p,...safe}=user;
-  broadcast({type:'user_updated',userId:user.id,bio:user.bio,status:user.status,jobTitle:user.jobTitle,name:user.name,color:user.color,role:user.role});
-  res.json({ok:true,user:safe});
+  broadcast({type:'user_updated',userId:user.id,bio:user.bio,status:user.status,jobTitle:user.jobTitle,name:user.name,color:user.color,role:user.role,approved:user.approved});
+  res.json({ok:true,user:safeUser(user)});
 });
 app.post('/api/admin/remove-user',(req,res)=>{
   const {adminId,targetId}=req.body;
   const db=loadJson(USERS_FILE,{users:[]});
-  const admin=db.users.find(u=>u.id===adminId);
-  if (!admin||admin.role!=='admin') return res.json({ok:false,error:'not_admin'});
+  const admin=requireAdminUser(db,adminId);
+  if (!admin) return res.json({ok:false,error:'not_admin'});
   const idx=db.users.findIndex(u=>u.id===targetId);
   if (idx===-1) return res.json({ok:false,error:'not_found'});
   db.users.splice(idx,1);
@@ -216,8 +299,8 @@ app.post('/api/admin/remove-user',(req,res)=>{
 app.post('/api/admin/delete-room',(req,res)=>{
   const {adminId,roomId}=req.body;
   const db=loadJson(USERS_FILE,{users:[]});
-  const admin=db.users.find(u=>u.id===adminId);
-  if (!admin||admin.role!=='admin') return res.json({ok:false,error:'not_admin'});
+  const admin=requireAdminUser(db,adminId);
+  if (!admin) return res.json({ok:false,error:'not_admin'});
   if (roomId==='general') return res.json({ok:false,error:'protected'});
   const rdb=loadJson(ROOMS_FILE,{rooms:[]});
   rdb.rooms=rdb.rooms.filter(r=>r.id!==roomId);
@@ -369,10 +452,114 @@ app.post('/api/upload',(req,res)=>{
   res.json({ok:true,fileUrl:`/uploads/${safe}`,fileName,fileType});
 });
 
+
+// -- APPROVAL / BACKUP / MEETINGS / TWO-PLAYER GAMES -----------------------
+app.post('/api/admin/approve-user',(req,res)=>{
+  const {adminId,targetId,approved=true}=req.body;
+  const db=loadJson(USERS_FILE,{users:[]});
+  const admin=requireAdminUser(db,adminId);
+  if (!admin) return res.json({ok:false,error:'not_admin'});
+  const user=db.users.find(u=>u.id===targetId);
+  if (!user) return res.json({ok:false,error:'not_found'});
+  if (user.id==='admin') return res.json({ok:false,error:'protected'});
+  user.approved=!!approved;
+  saveJson(USERS_FILE,db);
+  addLog('admin',`${approved?'Approved':'Suspended'} user: @${user.username} by @${admin.username}`);
+  broadcast({type:'user_updated',userId:user.id,approved:user.approved});
+  res.json({ok:true,user:safeUser(user)});
+});
+app.get('/api/admin/backup',(req,res)=>{
+  const adminId=req.query.adminId;
+  const db=loadJson(USERS_FILE,{users:[]});
+  const admin=requireAdminUser(db,adminId);
+  if (!admin) return res.status(403).json({ok:false,error:'not_admin'});
+  addLog('admin',`Backup exported by @${admin.username}`);
+  res.setHeader('Content-Disposition', `attachment; filename="lermo-backup-${Date.now()}.json"`);
+  res.json(backupPayload());
+});
+app.post('/api/admin/restore-backup',(req,res)=>{
+  const {adminId,backup}=req.body;
+  const db=loadJson(USERS_FILE,{users:[]});
+  const admin=requireAdminUser(db,adminId);
+  if (!admin) return res.status(403).json({ok:false,error:'not_admin'});
+  if (!backup || !backup.users || !backup.rooms) return res.json({ok:false,error:'invalid_backup'});
+  saveJson(USERS_FILE,backup.users); saveJson(ROOMS_FILE,backup.rooms);
+  if (backup.messages) saveJson(MSGS_FILE,backup.messages);
+  if (backup.meetings) saveJson(MEETINGS_FILE,backup.meetings);
+  if (backup.games) saveJson(GAME_FILE,backup.games);
+  addLog('admin',`Backup restored by @${admin.username}`);
+  res.json({ok:true});
+});
+app.get('/api/meetings',(req,res)=>{
+  const userId=req.query.userId;
+  const db=loadJson(MEETINGS_FILE,{meetings:[]});
+  const meetings=(db.meetings||[]).filter(m=>!userId || m.createdBy===userId || (m.participants||[]).includes(userId));
+  res.json({ok:true,meetings});
+});
+app.post('/api/meetings',(req,res)=>{
+  const {createdBy,title,start,end,participants=[],notes=''}=req.body;
+  if (!createdBy || !title || !start) return res.json({ok:false,error:'missing_fields'});
+  const users=loadJson(USERS_FILE,{users:[]}).users;
+  const creator=users.find(u=>u.id===createdBy && u.approved!==false);
+  if (!creator) return res.json({ok:false,error:'not_allowed'});
+  const db=loadJson(MEETINGS_FILE,{meetings:[]});
+  const m={id:'mtg_'+Date.now(),title:String(title).slice(0,120),start,end:end||'',participants:[...new Set([createdBy,...participants])],createdBy,notes:String(notes||'').slice(0,500),status:{},createdAt:new Date().toISOString()};
+  m.participants.forEach(u=>{m.status[u]=u===createdBy?'accepted':'pending'});
+  db.meetings.unshift(m); saveJson(MEETINGS_FILE,db);
+  addLog('meeting',`Meeting booked: ${m.title} by @${creator.username}`);
+  broadcast({type:'meeting_created',meeting:m});
+  res.json({ok:true,meeting:m});
+});
+app.post('/api/meetings/respond',(req,res)=>{
+  const {userId,meetingId,status}=req.body;
+  const db=loadJson(MEETINGS_FILE,{meetings:[]});
+  const m=(db.meetings||[]).find(x=>x.id===meetingId);
+  if (!m || !(m.participants||[]).includes(userId)) return res.json({ok:false,error:'not_found'});
+  if (!['accepted','declined','pending'].includes(status)) return res.json({ok:false,error:'bad_status'});
+  m.status[userId]=status; saveJson(MEETINGS_FILE,db);
+  broadcast({type:'meeting_updated',meeting:m});
+  res.json({ok:true,meeting:m});
+});
+app.get('/api/games/sessions',(req,res)=>{
+  const userId=req.query.userId;
+  const db=loadJson(GAME_FILE,{games:[]});
+  res.json({ok:true,games:(db.games||[]).filter(g=>!userId || (g.players||[]).includes(userId) || g.createdBy===userId)});
+});
+app.post('/api/games/invite',(req,res)=>{
+  const {fromId,toId,gameType='ttt'}=req.body;
+  const users=loadJson(USERS_FILE,{users:[]}).users;
+  const from=users.find(u=>u.id===fromId), to=users.find(u=>u.id===toId);
+  if (!from || !to) return res.json({ok:false,error:'user_not_found'});
+  const db=loadJson(GAME_FILE,{games:[]});
+  const game={id:'game_'+Date.now(),gameType,players:[fromId,toId],createdBy:fromId,status:'pending',turn:fromId,board:Array(9).fill(''),winner:null,moves:[],createdAt:new Date().toISOString()};
+  db.games.unshift(game); saveJson(GAME_FILE,db);
+  broadcast({type:'game_invite',game,from:safeUser(from),to:safeUser(to)});
+  res.json({ok:true,game});
+});
+app.post('/api/games/move',(req,res)=>{
+  const {gameId,userId,index}=req.body;
+  const db=loadJson(GAME_FILE,{games:[]});
+  const g=(db.games||[]).find(x=>x.id===gameId);
+  if (!g || !g.players.includes(userId)) return res.json({ok:false,error:'not_found'});
+  if (g.status==='pending') g.status='active';
+  if (g.status!=='active' || g.turn!==userId || g.board[index]) return res.json({ok:false,error:'bad_move'});
+  const mark=g.players[0]===userId?'X':'O';
+  g.board[index]=mark; g.moves.push({userId,index,mark,at:new Date().toISOString()});
+  const wins=[[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+  const won=wins.find(w=>w.every(i=>g.board[i]===mark));
+  if (won) { g.status='finished'; g.winner=userId; }
+  else if (g.board.every(Boolean)) { g.status='finished'; g.winner='draw'; }
+  else g.turn=g.players.find(p=>p!==userId);
+  saveJson(GAME_FILE,db);
+  broadcast({type:'game_updated',game:g});
+  res.json({ok:true,game:g});
+});
+
 // ── USERS ──────────────────────────────────────────────────
 app.get('/api/users',(req,res)=>{
   const db=loadJson(USERS_FILE,{users:[]});
-  res.json({ok:true,users:db.users.map(({password:_p,...u})=>u)});
+  if (ensureSecurityDefaults(db)) saveJson(USERS_FILE,db);
+  res.json({ok:true,users:db.users.map(safeUser)});
 });
 app.get('/api/stats',(req,res)=>{
   const users=loadJson(USERS_FILE,{users:[]}).users;
@@ -405,6 +592,8 @@ function getLocalIP(){
   return 'localhost';
 }
 ensureData();
+await initPostgres();
+{ const db=loadJson(USERS_FILE,{users:[]}); if (ensureSecurityDefaults(db)) saveJson(USERS_FILE,db); }
 server.listen(PORT,'0.0.0.0',()=>{
   const ip=getLocalIP();
   console.log('\n=========================================================');
