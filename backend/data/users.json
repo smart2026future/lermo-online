@@ -1,0 +1,42 @@
+{
+  "users": [
+    {
+      "id": "admin",
+      "username": "admin",
+      "name": "Administrator",
+      "email": "admin@lermo.app",
+      "password": "Admin123!",
+      "role": "admin",
+      "color": "navy",
+      "avatar": "AD",
+      "lang": "en",
+      "theme": "dark",
+      "createdAt": "2026-05-30T17:34:29.597Z",
+      "online": true,
+      "passwordReset": false,
+      "bio": "Platform Administrator",
+      "status": "available",
+      "jobTitle": "Platform Administrator",
+      "lastSeen": "2026-05-30T17:42:24.251Z"
+    },
+    {
+      "id": "freetime",
+      "username": "freetime",
+      "name": "WaW",
+      "email": "ee@ee.com",
+      "password": "Acount2020",
+      "role": "member",
+      "color": "teal",
+      "avatar": "W",
+      "lang": "en",
+      "theme": "dark",
+      "createdAt": "2026-05-30T17:37:26.895Z",
+      "online": true,
+      "passwordReset": false,
+      "bio": "",
+      "status": "available",
+      "jobTitle": "Boss",
+      "lastSeen": "2026-05-30T17:37:26.895Z"
+    }
+  ]
+}

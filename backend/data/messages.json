@@ -1,0 +1,65 @@
+{
+  "messages": {
+    "general": [
+      {
+        "id": 1780162652289,
+        "roomId": "general",
+        "userId": "freetime",
+        "username": "freetime",
+        "name": "WaW",
+        "color": "teal",
+        "avatar": "W",
+        "jobTitle": "Boss",
+        "text": "hello",
+        "fileUrl": null,
+        "fileName": null,
+        "fileType": null,
+        "replyTo": null,
+        "time": "20:37",
+        "ts": 1780162652289,
+        "reactions": {},
+        "edited": false
+      },
+      {
+        "id": 1780162719545,
+        "roomId": "general",
+        "userId": "freetime",
+        "username": "freetime",
+        "name": "WaW",
+        "color": "teal",
+        "avatar": "W",
+        "jobTitle": "Boss",
+        "text": "hi",
+        "fileUrl": null,
+        "fileName": null,
+        "fileType": null,
+        "replyTo": null,
+        "time": "20:38",
+        "ts": 1780162719546,
+        "reactions": {},
+        "edited": false
+      }
+    ],
+    "announcements": [
+      {
+        "id": 1780163012064,
+        "roomId": "announcements",
+        "userId": "admin",
+        "username": "admin",
+        "name": "Administrator",
+        "color": "navy",
+        "avatar": "AD",
+        "jobTitle": "Platform Administrator",
+        "text": "hiiii all",
+        "fileUrl": null,
+        "fileName": null,
+        "fileType": null,
+        "replyTo": null,
+        "time": "20:43",
+        "ts": 1780163012064,
+        "reactions": {},
+        "edited": false
+      }
+    ]
+  }
+}
