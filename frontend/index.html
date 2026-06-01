@@ -552,6 +552,32 @@ body{font-family:var(--font-body)!important;background:
 .avatar,.hd-avatar{box-shadow:0 0 22px rgba(124,109,255,.18)!important;}
 @media (max-width:900px){.sidebar{width:280px!important;min-width:280px!important}.right-panel{display:none!important}.topbar-widgets{gap:8px!important}.weather-result{max-width:190px!important}.auth-card{padding:32px 22px!important}}
 
+
+/* LERMO V9 - 3050 Professional Hologram Interface */
+:root{--font-main:Inter,Segoe UI,Tajawal,Arial,sans-serif;--radius-xl:22px;--radius-lg:16px;--line-soft:rgba(132,224,255,.18);--neon-cyan:#67e8f9;--neon-violet:#8b5cf6;--neon-gold:#facc15;--void:#030712;}
+body{font-family:var(--font-main)!important;color:var(--app-text)!important;background:radial-gradient(circle at 18% 12%,rgba(103,232,249,.14),transparent 26%),radial-gradient(circle at 85% 8%,rgba(139,92,246,.16),transparent 28%),radial-gradient(circle at 70% 85%,rgba(250,204,21,.06),transparent 28%),linear-gradient(135deg,#030712 0%,#081225 48%,#020617 100%)!important;}
+[data-theme="light"] body{background:radial-gradient(circle at 18% 12%,rgba(14,165,233,.12),transparent 28%),radial-gradient(circle at 85% 8%,rgba(34,197,94,.10),transparent 30%),linear-gradient(135deg,#f8fafc,#e7f5ef)!important;color:#102033!important;}
+.bg-grid{background-size:64px 64px!important;opacity:.32!important;background-image:linear-gradient(rgba(103,232,249,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(103,232,249,.08) 1px,transparent 1px)!important;}
+.header,.topbar-widgets{background:rgba(3,7,18,.76)!important;backdrop-filter:blur(22px) saturate(140%)!important;border-color:rgba(103,232,249,.16)!important;box-shadow:0 1px 0 rgba(255,255,255,.04),0 20px 60px rgba(0,0,0,.18)!important;}
+.logo{font-family:var(--font-main)!important;font-size:26px!important;font-weight:950!important;letter-spacing:8px!important;background:linear-gradient(90deg,#fff,#67e8f9,#a78bfa,#facc15)!important;-webkit-background-clip:text!important;-webkit-text-fill-color:transparent!important;text-shadow:0 0 28px rgba(103,232,249,.30)!important;}
+.sidebar,.right-panel,.chat-area,.auth-card,.modal,.a-section,.online-game-card,.meeting-card,.game-card,.profile-card-s{background:linear-gradient(180deg,rgba(9,16,36,.92),rgba(3,7,18,.95))!important;border:1px solid rgba(103,232,249,.16)!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.035),0 24px 70px rgba(0,0,0,.22),0 0 40px rgba(103,232,249,.04)!important;}
+.sidebar{width:282px!important;min-width:282px!important;padding:14px!important;gap:12px!important;}
+.sb-user{border:1px solid rgba(103,232,249,.18)!important;border-radius:22px!important;background:linear-gradient(135deg,rgba(103,232,249,.08),rgba(139,92,246,.08))!important;padding:16px!important;}
+.nav-tabs,.sb-search-wrap{border:0!important}.nav-tabs{gap:8px!important}.nav-tab{border-radius:14px!important;background:rgba(255,255,255,.035)!important;border:1px solid rgba(255,255,255,.05)!important}.nav-tab.active{background:linear-gradient(135deg,rgba(103,232,249,.18),rgba(139,92,246,.15))!important;border-color:rgba(103,232,249,.32)!important;color:#fff!important;}
+.room-item,.dm-item{border-radius:16px!important;padding:13px 14px!important;margin-bottom:8px!important;border:1px solid transparent!important;color:#dbeafe!important}.room-item.active,.dm-item.active{background:linear-gradient(135deg,rgba(103,232,249,.16),rgba(139,92,246,.17))!important;border-color:rgba(103,232,249,.28)!important;box-shadow:0 12px 30px rgba(0,0,0,.16),inset 0 0 24px rgba(103,232,249,.04)!important;}
+.sb-bottom{display:grid!important;grid-template-columns:1fr 1fr!important;gap:10px!important;padding:12px 0 0!important}.sb-bottom .btn{width:100%!important;height:44px!important;border-radius:14px!important;color:#dceaff!important;background:linear-gradient(180deg,rgba(20,33,65,.92),rgba(7,12,26,.92))!important;border-color:rgba(103,232,249,.16)!important}.sb-bottom #btnAdmin{display:block!important;background:linear-gradient(135deg,rgba(103,232,249,.19),rgba(139,92,246,.18))!important;border-color:rgba(103,232,249,.30)!important;color:#fff!important;}
+.chat-header{padding:18px 24px!important;background:rgba(3,7,18,.55)!important;border-bottom:1px solid rgba(103,232,249,.14)!important}.chat-title{font-size:21px!important;color:#f8fafc!important;font-weight:950!important}.chat-sub{color:#fef3c7!important}.chat-body{background:radial-gradient(circle at 50% 0%,rgba(103,232,249,.045),transparent 45%),rgba(2,6,23,.72)!important;}
+.message-bubble{border-radius:22px!important;background:linear-gradient(135deg,rgba(30,41,59,.92),rgba(15,23,42,.94))!important;border:1px solid rgba(103,232,249,.13)!important;color:var(--chat-text)!important;box-shadow:0 18px 38px rgba(0,0,0,.16)!important}.message.own .message-bubble{background:linear-gradient(135deg,rgba(37,99,235,.30),rgba(14,165,233,.18))!important;border-color:rgba(103,232,249,.30)!important;}
+.composer,.chat-input-wrap{background:rgba(3,7,18,.82)!important;border-top:1px solid rgba(103,232,249,.14)!important}.msg-input,.holo-input,.sb-search,.weather-city-input{background:rgba(15,23,42,.78)!important;border:1px solid rgba(103,232,249,.20)!important;color:#f8fafc!important;border-radius:16px!important;box-shadow:inset 0 0 18px rgba(103,232,249,.035)!important}.msg-input:focus,.holo-input:focus,.sb-search:focus{border-color:rgba(103,232,249,.55)!important;box-shadow:0 0 0 3px rgba(103,232,249,.13),0 0 26px rgba(103,232,249,.10)!important;}
+.btn-primary,.send-btn{background:linear-gradient(135deg,#2563eb,#06b6d4,#8b5cf6)!important;border:0!important;color:#fff!important;box-shadow:0 16px 36px rgba(37,99,235,.28),0 0 24px rgba(103,232,249,.13)!important}.btn-secondary{background:rgba(15,23,42,.64)!important;border:1px solid rgba(103,232,249,.17)!important;color:#dbeafe!important}.btn-secondary:hover{border-color:rgba(103,232,249,.38)!important;background:rgba(30,41,59,.74)!important;}
+.right-panel{width:300px!important;min-width:300px!important;padding:18px!important}.rp-title{font-size:11px!important;letter-spacing:4px!important;color:#a5b4fc!important;border-bottom:1px solid rgba(103,232,249,.12)!important;padding-bottom:10px!important}.stat-mini{border-radius:18px!important;background:linear-gradient(180deg,rgba(15,23,42,.9),rgba(2,6,23,.92))!important;border:1px solid rgba(103,232,249,.14)!important;}
+.admin-hero{min-height:88px!important;gap:18px!important;padding:18px 24px!important;background:linear-gradient(135deg,rgba(6,13,31,.94),rgba(15,23,42,.82))!important}.admin-h1{font-size:28px!important;letter-spacing:.4px!important;color:#fff!important;font-weight:950!important}.admin-sub{font-size:13px!important;color:#b6c6ee!important;margin-top:4px}.admin-hero-actions{margin-left:auto;display:flex;gap:10px}.control-body,.settings-3050{background:radial-gradient(circle at 20% 0%,rgba(103,232,249,.06),transparent 36%),radial-gradient(circle at 90% 10%,rgba(139,92,246,.08),transparent 36%)!important;}
+.control-panel-3050{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px;margin-bottom:16px}.control-tile{padding:18px;border-radius:22px;background:linear-gradient(135deg,rgba(103,232,249,.12),rgba(139,92,246,.08));border:1px solid rgba(103,232,249,.18);box-shadow:inset 0 0 35px rgba(103,232,249,.035)}.control-tile span{display:block;color:#93c5fd;font-size:11px;letter-spacing:2px;text-transform:uppercase}.control-tile b{display:block;color:#fff;font-size:24px;margin:6px 0}.control-tile small{color:#b6c6ee;line-height:1.4}.admin-two-col,.settings-grid-pro{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:16px}.elevated{border-radius:24px!important;padding:20px!important;position:relative;overflow:hidden}.elevated:before{content:'';position:absolute;inset:0;pointer-events:none;background:linear-gradient(120deg,transparent,rgba(103,232,249,.045),transparent);}
+.settings-profile-shell{display:flex;gap:16px;align-items:center}.settings-profile-name{font-size:24px;font-weight:950;color:#fff}.settings-profile-meta{font-size:13px;color:#aebfea}.settings-status-pill{display:inline-flex;margin-top:8px;padding:6px 10px;border-radius:999px;background:rgba(103,232,249,.10);border:1px solid rgba(103,232,249,.22);font-size:12px;color:#dff8ff}.settings-row{padding:14px!important;border:1px solid rgba(103,232,249,.12)!important;border-radius:18px!important;background:rgba(255,255,255,.035)!important}.lang-btn,.theme-btn{height:40px!important;border-radius:14px!important}.lang-btn.active,.theme-btn.active{background:linear-gradient(135deg,#2563eb,#06b6d4)!important;color:#fff!important;border-color:transparent!important}.smart-card{min-height:92px!important;border-radius:20px!important;background:linear-gradient(135deg,rgba(103,232,249,.10),rgba(139,92,246,.10))!important}.font-preview{border-radius:18px!important;color:#fff!important;background:linear-gradient(135deg,rgba(250,204,21,.08),rgba(103,232,249,.06))!important;padding:16px!important;}
+.auth-screen{background:radial-gradient(circle at center,rgba(103,232,249,.10),transparent 38%)!important}.auth-card{max-width:520px!important;padding:44px!important;border-radius:32px!important}.auth-logo{font-size:30px!important;letter-spacing:10px!important}.auth-title{font-size:36px!important;font-weight:950!important;background:linear-gradient(90deg,#fff,#67e8f9,#facc15)!important;-webkit-background-clip:text!important;-webkit-text-fill-color:transparent!important}.auth-sub{font-size:14px!important;color:#c7d2fe!important}.auth-toggle{border-radius:18px!important;background:rgba(103,232,249,.055)!important;border-color:rgba(103,232,249,.13)!important;}
+[data-theme="light"] .sidebar,[data-theme="light"] .right-panel,[data-theme="light"] .chat-area,[data-theme="light"] .a-section,[data-theme="light"] .admin-topbar,[data-theme="light"] .topbar-widgets,[data-theme="light"] .header{background:rgba(255,255,255,.82)!important;color:#102033!important;border-color:rgba(14,116,144,.14)!important;box-shadow:0 20px 50px rgba(15,23,42,.08)!important}[data-theme="light"] .chat-body{background:linear-gradient(180deg,#f8fafc,#eef8ff)!important}[data-theme="light"] .chat-title,[data-theme="light"] .admin-h1,[data-theme="light"] .settings-profile-name{color:#0f172a!important}[data-theme="light"] .msg-input,[data-theme="light"] .holo-input,[data-theme="light"] .sb-search{background:#fff!important;color:#0f172a!important;border-color:rgba(14,116,144,.20)!important}[data-theme="light"] .message-bubble{background:#fff!important;color:#1e293b!important}[data-theme="light"] .room-item,[data-theme="light"] .dm-item{color:#0f172a!important}
+@media(max-width:1100px){.right-panel{display:none!important}.sidebar{width:260px!important;min-width:260px!important}.admin-two-col,.settings-grid-pro{grid-template-columns:1fr!important}.admin-hero-actions{display:none!important}}
+
 </style>
 </head>
 <body>
@@ -844,16 +870,34 @@ body{font-family:var(--font-body)!important;background:
 
   <!-- ADMIN SCREEN -->
   <div class="screen admin-screen" id="screenAdmin">
-    <div class="admin-topbar">
+    <div class="admin-topbar admin-hero">
       <button class="btn btn-secondary btn-sm" onclick="backToChat()">&#x2190; Back</button>
-      <div class="admin-h1">Admin Control Center</div>
+      <div>
+        <div class="admin-h1">Admin Command Core</div>
+        <div class="admin-sub">Control users, roles, rooms, security, backups, appearance and platform operations.</div>
+      </div>
+      <div class="admin-hero-actions">
+        <button class="btn btn-secondary btn-sm" onclick="showScreen('screenActivity')">Live Activity</button>
+        <button class="btn btn-secondary btn-sm" onclick="downloadBackup()">Backup Now</button>
+      </div>
     </div>
-    <div class="admin-body">
+    <div class="admin-body control-body">
+      <div class="control-panel-3050">
+        <div class="control-tile"><span>Security State</span><b>Protected</b><small>bcrypt + admin audit enabled</small></div>
+        <div class="control-tile"><span>Data Layer</span><b>PostgreSQL</b><small>Railway database connected when DATABASE_URL exists</small></div>
+        <div class="control-tile"><span>Storage Layer</span><b>R2 / Volume</b><small>Cloudflare R2 optional, Railway volume fallback</small></div>
+        <div class="control-tile"><span>Experience</span><b>3050 Mode</b><small>Hologram UI, per-user language/theme</small></div>
+      </div>
       <div class="stat-grid" id="adminStats"></div>
-      <div class="a-section"><div class="a-section-title">Member Management</div><div id="adminMembers"></div></div>
-      <div class="a-section"><div class="a-section-title">Room Management</div><div id="adminRooms"></div></div>
-      <div class="a-section"><div class="a-section-title">Backup & Recovery</div><button class="btn btn-secondary" onclick="downloadBackup()">Download Full Backup</button><div class="settings-desc" style="margin-top:8px">Exports users, rooms, messages, meetings, games and logs. Upload storage uses Cloudflare R2 when R2 variables are configured; otherwise it uses Railway/local volume.</div></div>
-      <div class="a-section"><div class="a-section-title">Security Log</div><div class="sec-log" id="adminLog"></div></div>
+      <div class="admin-two-col">
+        <div class="a-section elevated"><div class="a-section-title">User Control Panel</div><div class="settings-desc">Approve accounts, update roles, reset passwords, change status and manage profiles.</div><div id="adminMembers"></div></div>
+        <div class="a-section elevated"><div class="a-section-title">Room Control Panel</div><div class="settings-desc">Manage public/private channels and workspace communication zones.</div><div id="adminRooms"></div></div>
+      </div>
+      <div class="admin-two-col">
+        <div class="a-section elevated"><div class="a-section-title">Backup & Recovery</div><button class="btn btn-secondary" onclick="downloadBackup()">Download Full Backup</button><div class="settings-desc" style="margin-top:8px">Exports users, rooms, messages, meetings, games and logs. Upload storage uses Cloudflare R2 when R2 variables are configured; otherwise it uses Railway/local volume.</div></div>
+        <div class="a-section elevated"><div class="a-section-title">Platform Appearance Control</div><div class="control-grid"><div><div class="tiny-label">Default font</div><select class="holo-input" id="adminFont" onchange="document.getElementById('settingsFont').value=this.value;saveDesignPrefs()"><option value="Inter">Inter</option><option value="Tajawal">Tajawal</option><option value="Arial">Arial</option><option value="Georgia">Georgia</option></select></div><div><div class="tiny-label">Accent</div><input class="holo-input" type="color" id="adminAccent" onchange="document.getElementById('settingsAccent').value=this.value;saveDesignPrefs()" value="#6ee7ff"></div></div></div>
+      </div>
+      <div class="a-section elevated"><div class="a-section-title">Security & Admin Audit Log</div><div class="sec-log" id="adminLog"></div></div>
     </div>
   </div>
 
@@ -894,80 +938,75 @@ body{font-family:var(--font-body)!important;background:
 
   <!-- SETTINGS SCREEN -->
   <div class="screen settings-screen" id="screenSettings">
-    <div class="admin-topbar">
+    <div class="admin-topbar admin-hero">
       <button class="btn btn-secondary btn-sm" onclick="backToChat()">&#x2190; Back</button>
-      <div class="admin-h1">&#x25C8; Settings &amp; Profile</div>
+      <div>
+        <div class="admin-h1">Personal Control Deck</div>
+        <div class="admin-sub">Customize language, theme, fonts, colors, notifications, sound and your presence without affecting other users.</div>
+      </div>
     </div>
-    <div class="settings-body">
+    <div class="settings-body settings-3050">
       <div class="profile-card-s" id="profileCardS"></div>
-      <div class="a-section">
-        <div class="a-section-title">Language</div>
-        <div class="settings-row">
-          <div><div class="settings-label">Interface Language</div><div class="settings-desc">Each user sets independently</div></div>
-          <div class="lang-btn-grp">
-            <button class="lang-btn active" id="langBtnEn" onclick="setLang('en')">EN</button>
-            <button class="lang-btn" id="langBtnAr" onclick="setLang('ar')">AR &#x0639;&#x0631;&#x0628;&#x064A;</button>
+      <div class="settings-grid-pro">
+        <div class="a-section elevated">
+          <div class="a-section-title">Presence & Profile</div>
+          <div class="settings-desc">Your status appears instantly to other users.</div>
+          <div id="profileControlsInline"></div>
+        </div>
+        <div class="a-section elevated">
+          <div class="a-section-title">Language</div>
+          <div class="settings-row">
+            <div><div class="settings-label">Interface Language</div><div class="settings-desc">Private per-user preference</div></div>
+            <div class="lang-btn-grp">
+              <button class="lang-btn active" id="langBtnEn" onclick="setLang('en')">EN</button>
+              <button class="lang-btn" id="langBtnAr" onclick="setLang('ar')">AR عربي</button>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="a-section">
-        <div class="a-section-title">Appearance</div>
-        <div class="settings-row">
-          <div><div class="settings-label">Theme</div><div class="settings-desc">Dark (Navy/Red) or Light (Green/Brown)</div></div>
-          <div class="theme-btn-grp">
-            <button class="theme-btn active" id="themeDark" onclick="setTheme('dark')">&#x1F319; Dark</button>
-            <button class="theme-btn" id="themeLight" onclick="setTheme('light')">&#x2600;&#xFE0F; Light</button>
+        <div class="a-section elevated">
+          <div class="a-section-title">Day / Night Mode</div>
+          <div class="settings-row">
+            <div><div class="settings-label">Theme</div><div class="settings-desc">Each user can choose independently</div></div>
+            <div class="theme-btn-grp">
+              <button class="theme-btn active" id="themeDark" onclick="setTheme('dark')">🌙 Night</button>
+              <button class="theme-btn" id="themeLight" onclick="setTheme('light')">☀️ Day</button>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="a-section">
-        <div class="a-section-title">Design Studio</div>
-        <div class="control-grid">
-          <div><div class="tiny-label">Font</div><select class="holo-input" id="settingsFont" onchange="saveDesignPrefs()"><option value="Inter">Inter</option><option value="Tajawal">Tajawal</option><option value="Arial">Arial</option><option value="Georgia">Georgia</option><option value="Courier New">Courier New</option></select></div>
-          <div><div class="tiny-label">App Text Color</div><input class="holo-input" type="color" id="settingsAppText" onchange="saveDesignPrefs()"></div>
-          <div><div class="tiny-label">Chat Text Color</div><input class="holo-input" type="color" id="settingsChatText" onchange="saveDesignPrefs()"></div>
-          <div><div class="tiny-label">Highlight Color</div><input class="holo-input" type="color" id="settingsAccent" onchange="saveDesignPrefs()"></div>
-          <div><div class="tiny-label">Big Ben Chime</div><select class="holo-input" id="settingsChime" onchange="saveDesignPrefs()"><option value="off">Off</option><option value="hour">On the hour</option><option value="half">Every 30 minutes</option></select></div>
+        <div class="a-section elevated">
+          <div class="a-section-title">3050 Hologram Design Studio</div>
+          <div class="control-grid">
+            <div><div class="tiny-label">Font</div><select class="holo-input" id="settingsFont" onchange="saveDesignPrefs()"><option value="Inter">Inter</option><option value="Tajawal">Tajawal</option><option value="Arial">Arial</option><option value="Georgia">Georgia</option><option value="Courier New">Courier New</option></select></div>
+            <div><div class="tiny-label">App Text Color</div><input class="holo-input" type="color" id="settingsAppText" onchange="saveDesignPrefs()"></div>
+            <div><div class="tiny-label">Chat Text Color</div><input class="holo-input" type="color" id="settingsChatText" onchange="saveDesignPrefs()"></div>
+            <div><div class="tiny-label">Neon Accent</div><input class="holo-input" type="color" id="settingsAccent" onchange="saveDesignPrefs()"></div>
+            <div><div class="tiny-label">Big Ben Chime</div><select class="holo-input" id="settingsChime" onchange="saveDesignPrefs()"><option value="off">Off</option><option value="hour">On the hour</option><option value="half">Every 30 minutes</option></select></div>
+          </div>
+          <div class="font-preview">Preview: clear readable text, soft hologram light, smart panels, and futuristic controls.</div>
         </div>
-        <div class="font-preview">Preview: LERMO keeps dark screens readable with bright white, gold and clear chat colors.</div>
-      </div>
-      <div class="a-section">
-        <div class="a-section-title">Smart Tools</div>
-        <div class="smart-tools">
-          <div class="smart-card" onclick="quickInsert('Please review and confirm. ✅')"><b>Quick Confirmation</b><span>Add a ready confirmation to chat.</span></div>
-          <div class="smart-card" onclick="quickInsert('Action required: ')"><b>Action Required</b><span>Start an action message.</span></div>
-          <div class="smart-card" onclick="quickInsert('Meeting notes: ')"><b>Meeting Notes</b><span>Start structured notes.</span></div>
-          <div class="smart-card" onclick="enableChimeAudio();showToast('Big Ben sound is ready.','success')"><b>Enable Chime</b><span>Activate browser audio permission.</span></div>
+        <div class="a-section elevated">
+          <div class="a-section-title">Notifications & Sound</div>
+          <div class="smart-tools">
+            <div class="smart-card" onclick="testNotifySound()"><b>🔔 Test Sound</b><span>Play a notification sound</span></div>
+            <div class="smart-card" onclick="enableChimeAudio();showToast('Big Ben audio enabled','success')"><b>🕰 Enable Chime</b><span>Allow browser audio</span></div>
+            <div class="smart-card" onclick="showScreen('screenActivity')"><b>⚡ Activity Hub</b><span>Open live intelligence feed</span></div>
+            <div class="smart-card" onclick="openModal('modalChangePwd')"><b>🔑 Password</b><span>Change account password</span></div>
+          </div>
         </div>
-      </div>
-      <div class="a-section">
-        <div class="a-section-title">Bio &amp; Status</div>
-        <div class="settings-row" style="flex-direction:column;align-items:flex-start;gap:8px">
-          <div class="settings-label">Nickname / Job Title</div>
-          <input class="holo-input" id="settingsJob" placeholder="Shown under your name in chat..." style="margin-bottom:0">
-          <div class="settings-label">Bio</div>
-          <input class="holo-input" id="settingsBio" placeholder="Tell others about yourself..." style="margin-bottom:0">
-          <div class="settings-label" style="margin-top:4px">Status</div>
-          <select class="holo-input" id="settingsStatus" style="margin-bottom:0">
-            <option value="available">&#x1F7E2; Available</option>
-            <option value="busy">&#x1F534; Busy</option>
-            <option value="away">&#x1F7E1; Away</option>
-            <option value="dnd">&#x26D4; Do Not Disturb</option>
-          </select>
-          <button class="btn btn-primary" onclick="saveProfile()" style="width:auto;padding:8px 24px;margin-top:4px">Save Profile</button>
-        </div>
-      </div>
-      <div class="a-section">
-        <div class="a-section-title">Account</div>
-        <div class="settings-row">
-          <div><div class="settings-label">Change Password</div><div class="settings-desc">Update your personal password</div></div>
-          <button class="btn btn-secondary btn-sm" onclick="openModal('modalChangePwd')">Change</button>
+        <div class="a-section elevated">
+          <div class="a-section-title">Account & Security</div>
+          <div class="settings-row">
+            <div><div class="settings-label">Password</div><div class="settings-desc">Update your personal password</div></div>
+            <button class="btn btn-secondary btn-sm" onclick="openModal('modalChangePwd')">Change</button>
+          </div>
+          <div class="settings-row">
+            <div><div class="settings-label">Role</div><div class="settings-desc">Controlled by admin</div></div>
+            <b id="settingsRoleBadge">Member</b>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
-
 <script>
 /* LERMO v2 - Full Application JS */
 
@@ -1013,12 +1052,25 @@ function applyTheme(t){
 function setTheme(t){S.theme=t;localStorage.setItem('lt',t);applyTheme(t);if(S.user)api('/api/update-prefs',{userId:S.user.id,theme:t});}
 
 // Lang
+const I18N={
+  en:{rooms:'Rooms',direct:'Direct',search:'Search rooms or people...',channels:'Channels',privateRooms:'Private Rooms',admin:'Admin',stats:'Stats',activity:'Activity Hub',games:'Games',meetings:'Meetings',settings:'Settings',signout:'Sign Out',onlineNow:'Online Now',platformStats:'Platform Stats',allMembers:'All Members',members:'Members',messages:'Messages',welcome:'Welcome Back',signin:'Sign In →',register:'Register here',forgot:'Forgot password?',username:'Username',password:'Password',general:'general'},
+  ar:{rooms:'الغرف',direct:'مباشر',search:'ابحث عن الغرف أو الأشخاص...',channels:'القنوات',privateRooms:'الغرف الخاصة',admin:'لوحة الإدارة',stats:'الإحصائيات',activity:'مركز النشاط',games:'الألعاب',meetings:'الاجتماعات',settings:'الإعدادات',signout:'تسجيل الخروج',onlineNow:'المتصلون الآن',platformStats:'إحصائيات المنصة',allMembers:'كل الأعضاء',members:'الأعضاء',messages:'الرسائل',welcome:'مرحباً بعودتك',signin:'تسجيل الدخول ←',register:'تسجيل جديد',forgot:'نسيت كلمة المرور؟',username:'اسم المستخدم',password:'كلمة المرور',general:'عام'}
+};
+function tr(k){return (I18N[S.lang]&&I18N[S.lang][k])||I18N.en[k]||k;}
+function applyTranslations(){
+  const q=(sel,txt)=>document.querySelectorAll(sel).forEach(e=>{e.textContent=txt;});
+  q('.nav-tab:nth-child(1)',tr('rooms')); q('.nav-tab:nth-child(2)',tr('direct'));
+  const ss=document.getElementById('sideSearch'); if(ss)ss.placeholder=tr('search');
+  document.querySelectorAll('.sb-lbl').forEach(e=>{const t=e.textContent.toLowerCase(); if(t.includes('channel'))e.textContent=tr('channels'); if(t.includes('private'))e.textContent=tr('privateRooms');});
+  const btns=[['btnAdmin',tr('admin')]]; btns.forEach(([id,t])=>{const e=document.getElementById(id); if(e)e.innerHTML='⚙ '+t;});
+}
 function applyLang(l){
   const h=document.documentElement;h.lang=l;h.dir=l==='ar'?'rtl':'ltr';
   document.getElementById('langBtnEn')?.classList.toggle('active',l==='en');
   document.getElementById('langBtnAr')?.classList.toggle('active',l==='ar');
+  applyTranslations();
 }
-function setLang(l){S.lang=l;localStorage.setItem('ll',l);applyLang(l);if(S.user)api('/api/update-prefs',{userId:S.user.id,lang:l});}
+function setLang(l){S.lang=l;localStorage.setItem('ll',l);applyLang(l);if(S.user)api('/api/update-prefs',{userId:S.user.id,lang:l});showToast(l==='ar'?'تم تغيير اللغة':'Language updated','success');}
 
 // Clock
 function tickClock(){
@@ -1032,6 +1084,7 @@ setInterval(tickClock,1000);tickClock();
 let audioCtx=null;
 function enableChimeAudio(){try{audioCtx=audioCtx||new (window.AudioContext||window.webkitAudioContext)();audioCtx.resume?.();localStorage.setItem('chimeAudio','1');return true;}catch{return false;}}
 function tone(freq,dur,delay=0,gain=.08){if(!audioCtx)return;const t=audioCtx.currentTime+delay;const o=audioCtx.createOscillator();const g=audioCtx.createGain();o.type='sine';o.frequency.value=freq;o.connect(g);g.connect(audioCtx.destination);g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(gain,t+.03);g.gain.exponentialRampToValueAtTime(.001,t+dur);o.start(t);o.stop(t+dur+.05);}
+function testNotifySound(){try{playDing();showToast('Notification sound tested','success');}catch{showToast('Sound is ready','success');}}
 function playBigBen(count=1){if(!audioCtx&&!enableChimeAudio())return;const seq=[392,330,349,262];for(let c=0;c<count;c++){seq.forEach((f,i)=>tone(f,.75,c*1.25+i*.22,.09));}}
 function maybeBigBen(n){const mode=localStorage.getItem('lermoChime')||'off';if(mode==='off')return;const minute=n.getMinutes(),second=n.getSeconds();const should=(mode==='hour'&&minute===0&&second===0)||(mode==='half'&&(minute===0||minute===30)&&second===0);if(!should)return;const key=`${n.getFullYear()}-${n.getMonth()}-${n.getDate()}-${n.getHours()}-${minute}`;if(S.lastChimeKey===key)return;S.lastChimeKey=key;const h=n.getHours()%12||12;playBigBen(minute===30?1:h);}
 if(localStorage.getItem('chimeAudio')==='1') setTimeout(enableChimeAudio,500);
@@ -1792,28 +1845,24 @@ async function doChangePwd(){
 
 // Settings
 function renderSettings(){
-  const u=S.user;
-  document.getElementById('profileCardS').innerHTML=`
-    <div style="display:flex;align-items:center;gap:14px;margin-bottom:14px">
-      <div class="avatar av-lg av-${clr(u.color)}">${u.avatar||ini(u.name)}</div>
-      <div><div style="font-size:17px;font-weight:800;color:var(--text)">${u.name}</div>
-      <div style="font-size:11px;color:var(--text3);margin-top:3px">@${u.username} · ${u.role.toUpperCase()}</div>${u.jobTitle?`<div class="profile-job">${esc(u.jobTitle)}</div>`:''}
-      ${u.bio?`<div style="font-size:12px;color:var(--text2);margin-top:5px">${esc(u.bio)}</div>`:''}
-      </div>${u.role==='admin'?'<span class="badge badge-admin" style="margin-left:auto">ADMIN</span>':''}
-    </div>`;
-  document.getElementById('settingsJob').value=u.jobTitle||'';
-  document.getElementById('settingsBio').value=u.bio||'';
-  document.getElementById('settingsStatus').value=u.status||'available';
+  if(!S.user)return;const u=S.user;
+  const profileHtml=`<div class="settings-profile-shell"><div class="avatar av-lg av-${clr(u.color)}">${u.avatar||ini(u.name)}</div><div style="flex:1"><div class="settings-profile-name">${esc(u.name)}</div><div class="settings-profile-meta">@${esc(u.username)} · ${esc(u.email||'')} · ${(u.role||'member').toUpperCase()}</div><div class="profile-job">${esc(u.jobTitle||'')}</div><div class="settings-status-pill">${stIcon(u.status)} ${esc(u.status||'available')}</div>${u.bio?`<div style="font-size:13px;color:var(--text2);margin-top:10px;line-height:1.45">${esc(u.bio)}</div>`:''}</div>${u.role==='admin'?'<span class="badge badge-admin" style="margin-left:auto">ADMIN</span>':''}</div>`;
+  const controls=`<label class="field-label">Bio</label><textarea class="holo-input" id="settingsBio" rows="3" placeholder="Tell others about you...">${esc(u.bio||'')}</textarea><label class="field-label">Job Title</label><input class="holo-input" id="settingsJob" value="${esc(u.jobTitle||'')}" placeholder="Manager / Engineer / Designer"><label class="field-label">Status</label><select class="holo-input" id="settingsStatus"><option value="available">🟢 Available</option><option value="busy">🔴 Busy</option><option value="away">🟡 Away</option><option value="dnd">⛔ Do Not Disturb</option></select><button class="btn btn-primary" style="max-width:220px" onclick="saveProfile()">Save Personal Profile</button>`;
+  document.getElementById('profileCardS').innerHTML=profileHtml;
+  const inline=document.getElementById('profileControlsInline'); if(inline) inline.innerHTML=controls;
+  const statusEl=document.getElementById('settingsStatus'); if(statusEl) statusEl.value=u.status||'available';
+  const roleEl=document.getElementById('settingsRoleBadge'); if(roleEl) roleEl.textContent=(u.role||'member').toUpperCase();
   loadDesignPrefs();
   document.getElementById('themeDark')?.classList.toggle('active',S.theme==='dark');
   document.getElementById('themeLight')?.classList.toggle('active',S.theme==='light');
   document.getElementById('langBtnEn')?.classList.toggle('active',S.lang==='en');
   document.getElementById('langBtnAr')?.classList.toggle('active',S.lang==='ar');
 }
+
 async function saveProfile(){
-  const jobTitle=document.getElementById('settingsJob').value.trim();
-  const bio=document.getElementById('settingsBio').value.trim();
-  const status=document.getElementById('settingsStatus').value;
+  const jobTitle=(document.getElementById('settingsJob')?.value||'').trim();
+  const bio=(document.getElementById('settingsBio')?.value||'').trim();
+  const status=document.getElementById('settingsStatus')?.value||'available';
   const res=await api('/api/update-prefs',{userId:S.user.id,bio,status,jobTitle,lang:S.lang,theme:S.theme});
   if(res.ok){S.user.bio=bio;S.user.status=status;S.user.jobTitle=jobTitle;const me=S.users.find(u=>u.id===S.user.id);if(me){me.bio=bio;me.status=status;me.jobTitle=jobTitle;}showToast('Profile saved!','success');renderSettings();renderSidebar();renderRightPanel();}
 }
@@ -1825,7 +1874,7 @@ function renderNotifications(flash=false){const p=document.getElementById('notif
 function openNotification(i){const n=S.notifications[i];if(!n)return;document.getElementById('notifyPanel').classList.remove('show');if(n.roomId?.startsWith('dm_')){showToast('Open the Direct tab to continue this DM.','info');}else openRoom(n.roomId);}
 function quickInsert(t){const i=document.getElementById('msgInput');if(i){i.value=(i.value?i.value+' ':'')+t;i.focus();autoH(i);showScreen('screenMain');}else showToast('Open a chat first.','warn');}
 function applyDesignPrefs(){const font=localStorage.getItem('lermoFont')||'Inter', app=localStorage.getItem('lermoAppText')||'', chat=localStorage.getItem('lermoChatText')||'', accent=localStorage.getItem('lermoAccent')||'';document.body.style.fontFamily=`${font}, sans-serif`;if(app)document.documentElement.style.setProperty('--app-text',app);if(chat)document.documentElement.style.setProperty('--chat-text',chat);if(accent){document.documentElement.style.setProperty('--accent2',accent);document.documentElement.style.setProperty('--gold',accent);}}
-function loadDesignPrefs(){applyDesignPrefs();const set=(id,v)=>{const e=document.getElementById(id);if(e)e.value=v};set('settingsFont',localStorage.getItem('lermoFont')||'Inter');set('settingsAppText',localStorage.getItem('lermoAppText')||'#ffffff');set('settingsChatText',localStorage.getItem('lermoChatText')||'#fff9d6');set('settingsAccent',localStorage.getItem('lermoAccent')||'#f7c948');set('settingsChime',localStorage.getItem('lermoChime')||'off');}
+function loadDesignPrefs(){applyDesignPrefs();const set=(id,v)=>{const e=document.getElementById(id);if(e)e.value=v};set('settingsFont',localStorage.getItem('lermoFont')||'Inter');set('settingsAppText',localStorage.getItem('lermoAppText')||'#ffffff');set('settingsChatText',localStorage.getItem('lermoChatText')||'#fff9d6');set('settingsAccent',localStorage.getItem('lermoAccent')||'#f7c948');set('settingsChime',localStorage.getItem('lermoChime')||'off');set('adminFont',localStorage.getItem('lermoFont')||'Inter');set('adminAccent',localStorage.getItem('lermoAccent')||'#6ee7ff');}
 function saveDesignPrefs(){const getv=id=>document.getElementById(id)?.value;localStorage.setItem('lermoFont',getv('settingsFont')||'Inter');localStorage.setItem('lermoAppText',getv('settingsAppText')||'#ffffff');localStorage.setItem('lermoChatText',getv('settingsChatText')||'#fff9d6');localStorage.setItem('lermoAccent',getv('settingsAccent')||'#f7c948');localStorage.setItem('lermoChime',getv('settingsChime')||'off');applyDesignPrefs();if(getv('settingsChime')!=='off')enableChimeAudio();showToast('Design settings saved.','success');}
 async function adminSaveUser(id){const body={adminId:S.user.id,targetId:id,name:document.getElementById('au_name_'+id)?.value,username:document.getElementById('au_username_'+id)?.value,email:document.getElementById('au_email_'+id)?.value,jobTitle:document.getElementById('au_job_'+id)?.value,role:document.getElementById('au_role_'+id)?.value,color:document.getElementById('au_color_'+id)?.value,password:document.getElementById('au_pwd_'+id)?.value};const res=await api('/api/admin/update-user',body);if(res.ok){showToast('User updated.','success');renderAdmin();const ur=await get('/api/users');S.users=ur.users||[];renderSidebar();renderRightPanel();}else showToast(res.error||'Could not update user','error');}
 
