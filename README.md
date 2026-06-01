@@ -234,3 +234,36 @@ UPLOAD_DIR=/app/data/uploads
 BACKUP_DIR=/app/data/backups
 ```
 Then attach a Railway volume mounted at `/app/data`.
+
+
+## LERMO V7 Professional UI/UX Redesign
+
+This package is a stronger visual and layout rebuild based on the stable V5 codebase.
+
+### Included in V7
+- Stable login/app separation so the login panel cannot remain on top after sign-in.
+- Professional hologram command-center UI with glass panels, responsive grid layout, and readable contrast.
+- Redesigned main shell: sidebar, chat workspace, right intelligence panel, and message composer.
+- Redesigned admin, settings, activity, games, statistics, and meetings modules.
+- Activity Hub rendering is fixed and now refreshes when opened.
+- Games lobby keeps two-player invitations, accept/decline, Tic Tac Toe, Connect Four, moves, and result display.
+- Weather city suggestions, password reset, roles, audit logs, PostgreSQL, backups, Railway volume uploads, and optional Cloudflare R2 support are preserved.
+
+### Railway settings
+Root Directory: /
+Build Command: npm run build
+Start Command: npm start
+
+### Recommended Railway variables
+UPLOAD_DIR=/app/data/uploads
+BACKUP_DIR=/app/data/backups
+BACKUP_INTERVAL_HOURS=24
+
+Optional R2 variables remain supported if you decide to use Cloudflare R2 later.
+
+
+## V8 Polish and Weather Fix
+- Weather widget now uses the backend `/api/weather` endpoint and never displays raw HTML.
+- Added safe fallback weather values for common cities if the external weather service is unavailable.
+- Refined colors, fonts, spacing, panels, chat bubbles, buttons, and topbar for a clearer professional command-center look.
+- Kept the same concept and workflow; this update is visual polish plus weather stability.
