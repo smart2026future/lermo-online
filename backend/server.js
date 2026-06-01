@@ -344,7 +344,7 @@ wss.on('connection',(ws)=>{
   });
 });
 
-const PORT=8888;
+const PORT = process.env.PORT || 8888;
 function getLocalIP(){
   const nets=os.networkInterfaces();
   for (const n of Object.values(nets))
