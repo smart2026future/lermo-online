@@ -278,3 +278,9 @@ This version applies a major design revolution inspired by the uploaded Hospital
 - stronger Admin Control Center, Settings, Activity, Games and Meetings styling,
 - better dark/day mode readability,
 - protected Railway port support.
+
+
+## V10.1 Railway runtime fix
+- Added missing backend dependencies required by server.js: bcryptjs, jsonwebtoken, pg, nodemailer, and @aws-sdk/client-s3.
+- Confirmed Railway dynamic port support with process.env.PORT.
+- Keep Railway settings: Root Directory /, Build Command npm run build, Start Command npm start.
