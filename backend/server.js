@@ -450,7 +450,7 @@ app.get('/api/admin/stats',(req,res)=>{
 // ── WEATHER ─────────────────────────────────────────────────
 const LOCAL_WEATHER = {
   erbil:{temp:30,status:'Sunny'}, baghdad:{temp:34,status:'Sunny'}, basra:{temp:36,status:'Hot'}, mosul:{temp:31,status:'Clear'}, kirkuk:{temp:32,status:'Clear'}, sulaymaniyah:{temp:27,status:'Mild'}, duhok:{temp:29,status:'Clear'},
-  amman:{temp:28,status:'Clear'}, dubai:{temp:36,status:'Sunny'}, doha:{temp:35,status:'Sunny'}, riyadh:{temp:37,status:'Hot'}, istanbul:{temp:24,status:'Partly cloudy'}, cairo:{temp:32,status:'Clear'}, london:{temp:18,status:'Cloudy'}, paris:{temp:21,status:'Partly cloudy'}, berlin:{temp:20,status:'Cloudy'}, 'new york':{temp:23,status:'Clear'}, tokyo:{temp:24,status:'Cloudy'}
+  amman:{temp:28,status:'Clear'}, dubai:{temp:36,status:'Sunny'}, abu_dhabi:{temp:35,status:'Sunny'}, doha:{temp:35,status:'Sunny'}, riyadh:{temp:37,status:'Hot'}, jeddah:{temp:33,status:'Humid'}, istanbul:{temp:24,status:'Partly cloudy'}, ankara:{temp:22,status:'Clear'}, cairo:{temp:32,status:'Clear'}, beirut:{temp:27,status:'Clear'}, london:{temp:18,status:'Cloudy'}, paris:{temp:21,status:'Partly cloudy'}, berlin:{temp:20,status:'Cloudy'}, rome:{temp:25,status:'Clear'}, madrid:{temp:27,status:'Clear'}, 'new york':{temp:23,status:'Clear'}, toronto:{temp:20,status:'Clear'}, tokyo:{temp:24,status:'Cloudy'}, seoul:{temp:24,status:'Clear'}
 };
 function cleanWeatherText(v){
   const t=String(v||'').replace(/<[^>]*>/g,'').replace(/[{}$`]/g,'').replace(/\s+/g,' ').trim();

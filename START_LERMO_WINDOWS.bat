@@ -47,7 +47,7 @@ echo.
 echo  Share the address above with everyone on the same Wi-Fi.
 echo  Works on: iPhone, iPad, Android, Mac, Windows.
 echo.
-echo  Admin login:   admin / Admin123!
+echo  Admin account: use your configured administrator credentials
 echo.
 echo =========================================================
 echo.

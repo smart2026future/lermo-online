@@ -267,3 +267,14 @@ Optional R2 variables remain supported if you decide to use Cloudflare R2 later.
 - Added safe fallback weather values for common cities if the external weather service is unavailable.
 - Refined colors, fonts, spacing, panels, chat bubbles, buttons, and topbar for a clearer professional command-center look.
 - Kept the same concept and workflow; this update is visual polish plus weather stability.
+
+
+## LERMO V10 Quantum Command UI
+This version applies a major design revolution inspired by the uploaded Hospital OS reference:
+- cleaner 3050 cockpit layout,
+- no overlapping sidebar/admin buttons,
+- split biometric login experience,
+- improved command-style topbar and weather display,
+- stronger Admin Control Center, Settings, Activity, Games and Meetings styling,
+- better dark/day mode readability,
+- protected Railway port support.
