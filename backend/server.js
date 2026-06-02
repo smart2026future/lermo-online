@@ -763,6 +763,35 @@ wss.on('connection',(ws)=>{
       const msg=JSON.parse(raw);
       if (msg.type==='join_room') ws.roomId=msg.roomId;
       if (msg.type==='typing') broadcast({type:'typing',userId:msg.userId,name:msg.name,roomId:msg.roomId});
+      if (msg.type==='mark_seen'){
+        const{roomId,userId}=msg;
+        if(roomId&&userId){
+          const msgs=db.messages?.[roomId]||[];
+          // Mark last 20 messages from others as seen
+          msgs.filter(m=>m.userId!==userId).slice(-20).forEach(m=>{
+            if(!m.seenBy)m.seenBy=[];
+            if(!m.seenBy.includes(userId)){
+              m.seenBy.push(userId);
+              broadcast({type:'message_seen',roomId,msgId:m.id,byUserId:userId});
+            }
+          });
+        }
+      }
+      if (msg.type==='mark_delivered'){
+        const{roomId,userId}=msg;
+        if(roomId&&userId){
+          const msgs=db.messages?.[roomId]||[];
+          msgs.slice(-30).forEach(m=>{
+            if(m.userId!==userId){
+              if(!m.deliveredTo)m.deliveredTo=[];
+              if(!m.deliveredTo.includes(userId)){
+                m.deliveredTo.push(userId);
+                broadcast({type:'message_delivered',roomId,msgId:m.id,byUserId:userId});
+              }
+            }
+          });
+        }
+      }
     } catch {}
   });
 });

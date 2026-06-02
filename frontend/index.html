@@ -826,10 +826,27 @@ body{font-family:'DM Sans','Inter',sans-serif}
 .msg-sender{font-family:'Playfair Display',serif}
 .ch-name,.auth-title,.room-header-name,.sec-title{font-family:'Playfair Display',serif;font-weight:700}
 
-/* ── CUSTOM CURSOR ── */
-body{cursor:none!important}
-#nv-cursor{position:fixed;width:10px;height:10px;border-radius:50%;background:var(--p);pointer-events:none;z-index:99999;transform:translate(-50%,-50%);transition:transform .06s,width .12s,height .12s;mix-blend-mode:screen;box-shadow:0 0 12px rgba(var(--prgb),.6)}
-#nv-ring{position:fixed;width:28px;height:28px;border-radius:50%;border:1.5px solid rgba(var(--prgb),.4);pointer-events:none;z-index:99998;transform:translate(-50%,-50%);transition:all .1s ease}
+/* ── CUSTOM CURSOR — stable, survives all modals ── */
+*,*:hover{cursor:none!important}
+#nv-cursor{
+  position:fixed!important;width:10px;height:10px;border-radius:50%;
+  background:var(--p,#ec4899);pointer-events:none!important;
+  z-index:2147483647!important;  /* max z-index */
+  transform:translate(-50%,-50%);
+  transition:width .12s,height .12s;
+  mix-blend-mode:screen;
+  box-shadow:0 0 12px rgba(var(--prgb,236,72,153),.6);
+  left:-100px;top:-100px;
+}
+#nv-ring{
+  position:fixed!important;width:28px;height:28px;border-radius:50%;
+  border:1.5px solid rgba(var(--prgb,236,72,153),.45);
+  pointer-events:none!important;
+  z-index:2147483646!important;
+  transform:translate(-50%,-50%);
+  transition:width .18s,height .18s,border-color .3s;
+  left:-100px;top:-100px;
+}
 
 /* ── UHD LOADING SCREEN ── */
 #nvLoad{position:fixed;inset:0;z-index:99000;display:flex;flex-direction:column;align-items:center;justify-content:center;background:radial-gradient(ellipse 120% 100% at 50% -20%,#1a0030 0%,#06000d 45%,#000005 100%);overflow:hidden;transition:opacity .7s ease}
@@ -1032,6 +1049,65 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;back
 .game-card-nova{animation:nvlGameCardIn .3s ease both}
 .game-card-nova:nth-child(1){animation-delay:.04s}.game-card-nova:nth-child(2){animation-delay:.08s}.game-card-nova:nth-child(3){animation-delay:.12s}.game-card-nova:nth-child(4){animation-delay:.16s}.game-card-nova:nth-child(5){animation-delay:.2s}.game-card-nova:nth-child(6){animation-delay:.24s}.game-card-nova:nth-child(7){animation-delay:.28s}.game-card-nova:nth-child(8){animation-delay:.32s}
 
+
+
+/* ═══ NOVA SETTINGS COMPLETE REDESIGN ═══ */
+.nvset-body{flex:1;overflow-y:auto;padding:18px 20px 30px;display:flex;flex-direction:column;gap:14px;background:var(--bg)}
+.nvset-profile-banner{background:linear-gradient(135deg,rgba(103,232,249,.08),rgba(139,92,246,.1));border:1px solid rgba(103,232,249,.15);border-radius:20px;padding:20px 24px;display:flex;align-items:center;gap:16px;flex-shrink:0}
+.nvset-row3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;flex-shrink:0}
+@media(max-width:1100px){.nvset-row3{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:700px){.nvset-row3{grid-template-columns:1fr}}
+.nvset-tile{background:var(--card);border:1px solid var(--border2);border-radius:20px;padding:18px;display:flex;flex-direction:column;gap:14px;transition:border-color .2s}
+.nvset-tile:hover{border-color:rgba(103,232,249,.3)}
+.nvset-tile-wide{grid-column:auto}
+.nvset-tile-hd{display:flex;align-items:center;gap:12px;padding-bottom:12px;border-bottom:1px solid var(--border)}
+.nvset-ico{font-size:26px;width:44px;height:44px;display:flex;align-items:center;justify-content:center;border-radius:12px;background:rgba(103,232,249,.07);flex-shrink:0}
+.nvset-tile-ttl{font-size:14px;font-weight:800;color:var(--text);letter-spacing:.3px}
+.nvset-tile-sub{font-size:10px;color:var(--text3);margin-top:2px;letter-spacing:.5px;text-transform:uppercase}
+/* Option buttons (language etc.) */
+.nvset-option-row{display:flex;gap:8px;flex-wrap:wrap}
+.nvset-opt{flex:1;padding:10px 14px;border-radius:12px;border:1px solid var(--border2);background:transparent;color:var(--text2);font-size:12px;font-weight:700;cursor:pointer;transition:all .2s;font-family:inherit;white-space:nowrap}
+.nvset-opt.active{background:linear-gradient(135deg,var(--accent),var(--accent3));color:#fff;border-color:transparent;box-shadow:var(--glow-navy)}
+.nvset-opt:not(.active):hover{background:rgba(103,232,249,.07);color:var(--text)}
+/* Theme grid */
+.nvset-theme-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+.nvset-theme-btn{padding:10px 6px;border-radius:12px;border:1.5px solid var(--border2);background:transparent;color:var(--text2);font-size:10px;font-weight:700;cursor:pointer;transition:all .2s;display:flex;flex-direction:column;align-items:center;gap:4px;font-family:inherit}
+.nvset-theme-btn.active{border-color:rgba(103,232,249,.6)!important;background:rgba(103,232,249,.08);color:var(--text);box-shadow:0 0 12px rgba(103,232,249,.2)}
+.nvset-theme-btn:not(.active):hover{background:rgba(103,232,249,.05);color:var(--text)}
+/* Design studio */
+.nvset-design-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.nvset-field{display:flex;flex-direction:column;gap:5px}
+.nvset-flbl{font-size:10px;font-weight:700;letter-spacing:1.5px;color:var(--text3);text-transform:uppercase}
+.nvset-preview{background:rgba(103,232,249,.05);border:1px solid rgba(103,232,249,.12);border-radius:12px;padding:12px;font-size:13px;color:var(--text2);line-height:1.6}
+/* Action grid */
+.nvset-action-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.nvset-action-btn{padding:12px 8px;border-radius:13px;border:1px solid var(--border2);background:rgba(255,255,255,.03);color:var(--text2);font-size:11px;font-weight:700;cursor:pointer;transition:all .2s;display:flex;flex-direction:column;align-items:center;gap:5px;font-family:inherit}
+.nvset-action-btn span:first-child{font-size:22px}
+.nvset-action-btn:hover{background:rgba(103,232,249,.08);border-color:rgba(103,232,249,.3);color:var(--text)}
+.nvset-act-on{background:rgba(16,185,129,.08)!important;border-color:rgba(16,185,129,.3)!important;color:var(--success)!important}
+/* Toggle switches */
+.nvset-status-toggle{margin-top:4px;display:flex;flex-direction:column;gap:8px}
+.nvset-toggle-row{display:flex;align-items:center;justify-content:space-between;font-size:12px;color:var(--text2);padding:6px 0;border-bottom:1px solid rgba(103,232,249,.05)}
+.nvset-toggle-row:last-child{border-bottom:none}
+.nvset-switch{position:relative;display:inline-block;width:38px;height:20px;flex-shrink:0}
+.nvset-switch input{opacity:0;width:0;height:0}
+.nvset-slider{position:absolute;cursor:pointer;inset:0;background:rgba(255,255,255,.1);border-radius:20px;transition:.3s;border:1px solid var(--border2)}
+.nvset-slider::before{content:'';position:absolute;height:14px;width:14px;left:3px;bottom:2px;background:#fff;border-radius:50%;transition:.3s}
+input:checked + .nvset-slider{background:linear-gradient(135deg,var(--accent),var(--accent3))}
+input:checked + .nvset-slider::before{transform:translateX(16px)}
+/* Security rows */
+.nvset-sec-rows{display:flex;flex-direction:column;gap:0}
+.nvset-sec-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(103,232,249,.05)}
+.nvset-sec-row:last-child{border-bottom:none}
+/* ═══ MESSAGE STATUS (seen/delivered) ═══ */
+.msg-status{display:inline-flex;align-items:center;gap:2px;font-size:10px;margin-left:6px;opacity:.7;transition:opacity .2s}
+.msg-status.sent{color:var(--text3)}
+.msg-status.delivered{color:var(--accent3)}
+.msg-status.seen{color:var(--success)}
+.msg-status-icon{font-size:11px}
+/* Seen avatars under own messages */
+.msg-seen-by{display:flex;gap:3px;margin-top:5px;justify-content:flex-end}
+.seen-av{width:16px;height:16px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:700;border:1.5px solid var(--bg);opacity:.8}
 
 </style>
 </head>
@@ -1391,75 +1467,114 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;back
     <div class="admin-body" id="meetingsBody"></div>
   </div>
 
-  <!-- SETTINGS SCREEN -->
+  <!-- SETTINGS SCREEN — NOVA HORIZONTAL REDESIGN -->
   <div class="screen settings-screen" id="screenSettings">
-    <div class="admin-topbar admin-hero">
+    <div class="admin-topbar admin-hero" style="flex-shrink:0">
       <button class="btn btn-secondary btn-sm" onclick="backToChat()">&#x2190; Back</button>
       <div>
-        <div class="admin-h1">Personal Control Deck</div>
-        <div class="admin-sub">Customize language, theme, fonts, colors, notifications, sound and your presence without affecting other users.</div>
+        <div class="admin-h1">&#x2728; Personal Control Deck</div>
+        <div class="admin-sub">Your private workspace — changes only affect you, not other users.</div>
       </div>
     </div>
-    <div class="settings-body settings-3050">
-      <div class="profile-card-s" id="profileCardS"></div>
-      <div class="settings-grid-pro">
-        <div class="a-section elevated">
-          <div class="a-section-title">Presence & Profile</div>
-          <div class="settings-desc">Your status appears instantly to other users.</div>
+    <div class="nvset-body">
+
+      <!-- PROFILE BANNER -->
+      <div class="nvset-profile-banner" id="profileCardS"></div>
+
+      <!-- ROW 1: Profile + Language + Theme -->
+      <div class="nvset-row3">
+        <!-- PRESENCE & PROFILE -->
+        <div class="nvset-tile nvset-tile-wide">
+          <div class="nvset-tile-hd"><span class="nvset-ico">&#x1F464;</span><div><div class="nvset-tile-ttl">Presence &amp; Profile</div><div class="nvset-tile-sub">Visible to everyone</div></div></div>
           <div id="profileControlsInline"></div>
         </div>
-        <div class="a-section elevated">
-          <div class="a-section-title">Language</div>
-          <div class="settings-row">
-            <div><div class="settings-label">Interface Language</div><div class="settings-desc">Private per-user preference</div></div>
-            <div class="lang-btn-grp">
-              <button class="lang-btn active" id="langBtnEn" onclick="setLang('en')">EN</button>
-              <button class="lang-btn" id="langBtnAr" onclick="setLang('ar')">AR عربي</button>
-            </div>
+        <!-- LANGUAGE -->
+        <div class="nvset-tile">
+          <div class="nvset-tile-hd"><span class="nvset-ico">&#x1F30D;</span><div><div class="nvset-tile-ttl">Language</div><div class="nvset-tile-sub">Per-user preference</div></div></div>
+          <div class="nvset-option-row">
+            <button class="nvset-opt active" id="langBtnEn" onclick="setLang('en')">&#x1F1EC;&#x1F1E7; English</button>
+            <button class="nvset-opt" id="langBtnAr" onclick="setLang('ar')">&#x1F1F8;&#x1F1E6; Arabic &#x639;&#x631;&#x628;&#x64A;</button>
           </div>
         </div>
-        <div class="a-section elevated">
-          <div class="a-section-title">Day / Night Mode</div>
-          <div class="settings-row">
-            <div><div class="settings-label">Theme</div><div class="settings-desc">Each user can choose independently</div></div>
-            <div class="theme-btn-grp">
-              <button class="theme-btn active" id="themeDark" onclick="setTheme('dark')">🌙 Night</button>
-              <button class="theme-btn" id="themeLight" onclick="setTheme('light')">☀️ Day</button>
-            </div>
-          </div>
-        </div>
-        <div class="a-section elevated">
-          <div class="a-section-title">3050 Hologram Design Studio</div>
-          <div class="control-grid">
-            <div><div class="tiny-label">Font</div><select class="holo-input" id="settingsFont" onchange="saveDesignPrefs()"><option value="Inter">Inter</option><option value="Tajawal">Tajawal</option><option value="Arial">Arial</option><option value="Georgia">Georgia</option><option value="Courier New">Courier New</option></select></div>
-            <div><div class="tiny-label">App Text Color</div><input class="holo-input" type="color" id="settingsAppText" onchange="saveDesignPrefs()"></div>
-            <div><div class="tiny-label">Chat Text Color</div><input class="holo-input" type="color" id="settingsChatText" onchange="saveDesignPrefs()"></div>
-            <div><div class="tiny-label">Neon Accent</div><input class="holo-input" type="color" id="settingsAccent" onchange="saveDesignPrefs()"></div>
-            <div><div class="tiny-label">Big Ben Chime</div><select class="holo-input" id="settingsChime" onchange="saveDesignPrefs()"><option value="off">Off</option><option value="hour">On the hour</option><option value="half">Every 30 minutes</option></select></div>
-          </div>
-          <div class="font-preview">Preview: clear readable text, soft hologram light, smart panels, and futuristic controls.</div>
-        </div>
-        <div class="a-section elevated">
-          <div class="a-section-title">Notifications & Sound</div>
-          <div class="smart-tools">
-            <div class="smart-card" onclick="testNotifySound()"><b>🔔 Test Sound</b><span>Play a notification sound</span></div>
-            <div class="smart-card" onclick="enableChimeAudio();showToast('Big Ben audio enabled','success')"><b>🕰 Enable Chime</b><span>Allow browser audio</span></div>
-            <div class="smart-card" onclick="showScreen('screenActivity')"><b>⚡ Activity Hub</b><span>Open live intelligence feed</span></div>
-            <div class="smart-card" onclick="openModal('modalChangePwd')"><b>🔑 Password</b><span>Change account password</span></div>
-          </div>
-        </div>
-        <div class="a-section elevated">
-          <div class="a-section-title">Account & Security</div>
-          <div class="settings-row">
-            <div><div class="settings-label">Password</div><div class="settings-desc">Update your personal password</div></div>
-            <button class="btn btn-secondary btn-sm" onclick="openModal('modalChangePwd')">Change</button>
-          </div>
-          <div class="settings-row">
-            <div><div class="settings-label">Role</div><div class="settings-desc">Controlled by admin</div></div>
-            <b id="settingsRoleBadge">Member</b>
+        <!-- THEME -->
+        <div class="nvset-tile">
+          <div class="nvset-tile-hd"><span class="nvset-ico">&#x1F3A8;</span><div><div class="nvset-tile-ttl">Theme</div><div class="nvset-tile-sub">Choose your aesthetic</div></div></div>
+          <div class="nvset-theme-grid">
+            <button class="nvset-theme-btn active" id="themeDark" onclick="setTheme('dark')"><span style="font-size:20px">&#x1F319;</span><span>Night</span></button>
+            <button class="nvset-theme-btn" id="themeLight" onclick="setTheme('light')"><span style="font-size:20px">&#x2600;&#xFE0F;</span><span>Day</span></button>
+            <button class="nvset-theme-btn" id="thBlossom" onclick="setThemeNova('blossom')" style="border-color:rgba(236,72,153,.4)"><span style="font-size:20px">&#x1F338;</span><span>Blossom</span></button>
+            <button class="nvset-theme-btn" id="thCelestial" onclick="setThemeNova('celestial')" style="border-color:rgba(245,158,11,.4)"><span style="font-size:20px">&#x2728;</span><span>Celestial</span></button>
+            <button class="nvset-theme-btn" id="thSakura" onclick="setThemeNova('sakura')" style="border-color:rgba(219,39,119,.4)"><span style="font-size:20px">&#x1F338;</span><span>Sakura</span></button>
+            <button class="nvset-theme-btn" id="thAurora" onclick="setThemeNova('aurora')" style="border-color:rgba(20,184,166,.4)"><span style="font-size:20px">&#x1F30A;</span><span>Aurora</span></button>
           </div>
         </div>
       </div>
+
+      <!-- ROW 2: Design Studio + Notifications + Security -->
+      <div class="nvset-row3">
+        <!-- DESIGN STUDIO -->
+        <div class="nvset-tile">
+          <div class="nvset-tile-hd"><span class="nvset-ico">&#x1F4AB;</span><div><div class="nvset-tile-ttl">Design Studio</div><div class="nvset-tile-sub">Fonts, colors &amp; chime</div></div></div>
+          <div class="nvset-design-grid">
+            <div class="nvset-field"><div class="nvset-flbl">&#x1F524; Font Family</div>
+              <select class="holo-input" id="settingsFont" onchange="saveDesignPrefs()">
+                <option value="Inter">Inter (Default)</option><option value="Tajawal">Tajawal (Arabic)</option>
+                <option value="Georgia">Georgia (Classic)</option><option value="Arial">Arial</option><option value="Courier New">Courier New (Code)</option>
+              </select>
+            </div>
+            <div class="nvset-field"><div class="nvset-flbl">&#x1F4AC; Chat Bubble Color</div><input class="holo-input" type="color" id="settingsChatText" onchange="saveDesignPrefs()" style="height:42px"></div>
+            <div class="nvset-field"><div class="nvset-flbl">&#x26A1; Accent Neon</div><input class="holo-input" type="color" id="settingsAccent" onchange="saveDesignPrefs()" style="height:42px"></div>
+            <div class="nvset-field"><div class="nvset-flbl">&#x1F570; Big Ben Chime</div>
+              <select class="holo-input" id="settingsChime" onchange="saveDesignPrefs()">
+                <option value="off">&#x1F507; Off</option><option value="hour">&#x1F514; Every Hour</option><option value="half">&#x1F514; Every 30 min</option>
+              </select>
+            </div>
+          </div>
+          <div class="nvset-preview" id="fontPreview">✦ Preview: beautiful chat, hologram glow, and your personal style.</div>
+        </div>
+
+        <!-- NOTIFICATIONS -->
+        <div class="nvset-tile">
+          <div class="nvset-tile-hd"><span class="nvset-ico">&#x1F514;</span><div><div class="nvset-tile-ttl">Notifications</div><div class="nvset-tile-sub">Sounds &amp; alerts</div></div></div>
+          <div class="nvset-action-grid">
+            <button class="nvset-action-btn" onclick="testNotifySound()"><span>&#x1F514;</span><span>Test Sound</span></button>
+            <button class="nvset-action-btn" onclick="enableChimeAudio();showToast('Chime enabled','success')"><span>&#x1F570;</span><span>Enable Chime</span></button>
+            <button class="nvset-action-btn nvset-act-on" id="nvReadRecipts" onclick="toggleReadReceipts()"><span>&#x2705;</span><span>Read Receipts</span></button>
+            <button class="nvset-action-btn" onclick="showScreen('screenActivity')"><span>&#x26A1;</span><span>Activity Hub</span></button>
+          </div>
+          <!-- Message Status Settings -->
+          <div class="nvset-status-toggle">
+            <div class="nvset-flbl" style="margin-bottom:8px">&#x1F4E8; Message Status Indicators</div>
+            <div class="nvset-toggle-row">
+              <span>Show Sent &#x2713;</span>
+              <label class="nvset-switch"><input type="checkbox" id="toggleSent" checked onchange="saveNotifPrefs()"><span class="nvset-slider"></span></label>
+            </div>
+            <div class="nvset-toggle-row">
+              <span>Show Delivered &#x2713;&#x2713;</span>
+              <label class="nvset-switch"><input type="checkbox" id="toggleDelivered" checked onchange="saveNotifPrefs()"><span class="nvset-slider"></span></label>
+            </div>
+            <div class="nvset-toggle-row">
+              <span>Show Seen &#x1F440;</span>
+              <label class="nvset-switch"><input type="checkbox" id="toggleSeen" checked onchange="saveNotifPrefs()"><span class="nvset-slider"></span></label>
+            </div>
+          </div>
+        </div>
+
+        <!-- SECURITY -->
+        <div class="nvset-tile">
+          <div class="nvset-tile-hd"><span class="nvset-ico">&#x1F510;</span><div><div class="nvset-tile-ttl">Account &amp; Security</div><div class="nvset-tile-sub">Protect your account</div></div></div>
+          <div class="nvset-sec-rows">
+            <div class="nvset-sec-row"><div><div class="nvset-flbl">Password</div><div style="font-size:11px;color:var(--text3)">Change your personal password</div></div><button class="btn btn-secondary btn-sm" onclick="openModal('modalChangePwd')">Change</button></div>
+            <div class="nvset-sec-row"><div><div class="nvset-flbl">Role</div><div style="font-size:11px;color:var(--text3)">Assigned by admin</div></div><b id="settingsRoleBadge" style="color:var(--accent3)">Member</b></div>
+            <div class="nvset-sec-row"><div><div class="nvset-flbl">Active Sessions</div><div style="font-size:11px;color:var(--text3)">Your current login</div></div><span style="font-size:11px;color:var(--success)">&#x1F7E2; Active</span></div>
+            <div class="nvset-sec-row"><div><div class="nvset-flbl">Privacy Mode</div><div style="font-size:11px;color:var(--text3)">Hide online status</div></div>
+              <label class="nvset-switch"><input type="checkbox" id="privacyMode" onchange="saveNotifPrefs()"><span class="nvset-slider"></span></label>
+            </div>
+            <div class="nvset-sec-row"><div><div class="nvset-flbl">Sign Out</div><div style="font-size:11px;color:var(--text3)">End current session</div></div><button class="btn btn-danger btn-sm" onclick="logout()">Sign Out</button></div>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 <script>
@@ -1653,6 +1768,16 @@ function handleWS(msg){
         if(el)el.innerHTML=buildReactions(msg.reactions,msg.msgId,msg.roomId);}break;
     case 'message_deleted':
       if(msg.roomId===S.currentRoom){const el=document.querySelector(`[data-mid="${msg.msgId}"]`);if(el)el.remove();}break;
+    case 'message_seen':
+      if(msg.roomId===S.currentRoom){
+        const el2=document.querySelector(`[data-mid="${msg.msgId}"] .msg-status`);
+        if(el2){el2.className='msg-status seen';el2.title='Seen';el2.innerHTML='<span class="msg-status-icon">&#x1F440;</span>';}
+      }break;
+    case 'message_delivered':
+      if(msg.roomId===S.currentRoom){
+        const el3=document.querySelector(`[data-mid="${msg.msgId}"] .msg-status`);
+        if(el3&&!el3.classList.contains('seen')){el3.className='msg-status delivered';el3.title='Delivered';el3.innerHTML='<span class="msg-status-icon">&#x2713;&#x2713;</span>';}
+      }break;
     case 'user_updated':
       const uu=S.users.find(x=>x.id===msg.userId);
       if(uu){['bio','status','jobTitle','name','color','role','approved'].forEach(k=>{if(msg[k]!==undefined)uu[k]=msg[k];});}
@@ -1884,6 +2009,10 @@ function appendMsg(m,scroll=true){
     if(isImg)content=`<img src="${m.fileUrl}" class="bubble-img" onclick="window.open('${m.fileUrl}','_blank')" alt="${esc(m.fileName)}">`;
     else content=`<a href="${m.fileUrl}" target="_blank" class="bubble-file">📎 ${esc(m.fileName)}</a>`;
   }else{content=`<div class="bubble">${replyHtml}${esc(m.text)}</div>`;}
+  // Send seen receipt if viewing this room and message is from someone else
+  if(!isOwn && S.currentRoom && S.user){
+    wsSend({type:'mark_delivered',roomId:S.currentRoom||m.roomId,userId:S.user.id});
+  }
   d.innerHTML=`
     <div class="avatar msg-av av-${c}" onclick="showUserProfile('${m.userId}')" title="${esc(m.name)}">${av}</div>
     <div class="msg-body">
@@ -1891,6 +2020,9 @@ function appendMsg(m,scroll=true){
         <span class="msg-sender" style="color:${nameColor}" onclick="showUserProfile('${m.userId}')">${isOwn?'You':m.name}</span>
         <span class="msg-time">${m.time}</span>
         ${jobTitle?`<span class="msg-job">${esc(jobTitle)}</span>`:''}
+        ${isOwn?`<span class="msg-status ${m.seen&&m.seen.length?'seen':m.delivered?'delivered':'sent'}" title="${m.seen&&m.seen.length?'Seen by '+m.seen.length:m.delivered?'Delivered':'Sent'}">
+          ${m.seen&&m.seen.length?'<span class="msg-status-icon">&#x1F440;</span>':m.delivered?'<span class="msg-status-icon">&#x2713;&#x2713;</span>':'<span class="msg-status-icon">&#x2713;</span>'}
+        </span>`:''}
       </div>
       ${content}
       <div class="msg-reactions">${buildReactions(m.reactions||{},m.id,m.roomId||S.currentRoom)}</div>
@@ -2301,17 +2433,65 @@ async function doChangePwd(){
 // Settings
 function renderSettings(){
   if(!S.user)return;const u=S.user;
-  const profileHtml=`<div class="settings-profile-shell"><div class="avatar av-lg av-${clr(u.color)}">${u.avatar||ini(u.name)}</div><div style="flex:1"><div class="settings-profile-name">${esc(u.name)}</div><div class="settings-profile-meta">@${esc(u.username)} · ${esc(u.email||'')} · ${(u.role||'member').toUpperCase()}</div><div class="profile-job">${esc(u.jobTitle||'')}</div><div class="settings-status-pill">${stIcon(u.status)} ${esc(u.status||'available')}</div>${u.bio?`<div style="font-size:13px;color:var(--text2);margin-top:10px;line-height:1.45">${esc(u.bio)}</div>`:''}</div>${u.role==='admin'?'<span class="badge badge-admin" style="margin-left:auto">ADMIN</span>':''}</div>`;
-  const controls=`<label class="field-label">Bio</label><textarea class="holo-input" id="settingsBio" rows="3" placeholder="Tell others about you...">${esc(u.bio||'')}</textarea><label class="field-label">Job Title</label><input class="holo-input" id="settingsJob" value="${esc(u.jobTitle||'')}" placeholder="Manager / Engineer / Designer"><label class="field-label">Status</label><select class="holo-input" id="settingsStatus"><option value="available">🟢 Available</option><option value="busy">🔴 Busy</option><option value="away">🟡 Away</option><option value="dnd">⛔ Do Not Disturb</option></select><button class="btn btn-primary" style="max-width:220px" onclick="saveProfile()">Save Personal Profile</button>`;
-  document.getElementById('profileCardS').innerHTML=profileHtml;
-  const inline=document.getElementById('profileControlsInline'); if(inline) inline.innerHTML=controls;
-  const statusEl=document.getElementById('settingsStatus'); if(statusEl) statusEl.value=u.status||'available';
-  const roleEl=document.getElementById('settingsRoleBadge'); if(roleEl) roleEl.textContent=(u.role||'member').toUpperCase();
-  loadDesignPrefs();
+  // Profile banner
+  const banner=document.getElementById('profileCardS');
+  if(banner)banner.innerHTML=`
+    <div class="avatar av-lg av-${clr(u.color)}" style="width:56px;height:56px;border-radius:16px;font-size:18px;flex-shrink:0">${u.avatar||ini(u.name)}</div>
+    <div style="flex:1;min-width:0">
+      <div style="font-size:20px;font-weight:900;color:var(--text)">${esc(u.name)} ${stIcon(u.status)}</div>
+      <div style="font-size:12px;color:var(--text3);margin-top:3px">@${esc(u.username)} · ${esc(u.email||'')} · <strong style="color:var(--accent3)">${(u.role||'member').toUpperCase()}</strong></div>
+      ${u.bio?`<div style="font-size:12px;color:var(--text2);margin-top:6px;line-height:1.5">${esc(u.bio)}</div>`:''}
+    </div>
+    ${u.role==='admin'?'<span class="badge badge-admin" style="margin-left:auto;height:fit-content">✦ ADMIN</span>':''}`;
+  // Profile controls
+  const inline=document.getElementById('profileControlsInline');
+  if(inline)inline.innerHTML=`
+    <div class="nvset-field"><div class="nvset-flbl">Bio</div><textarea class="holo-input" id="settingsBio" rows="2" placeholder="Tell others about you..." style="resize:none">${esc(u.bio||'')}</textarea></div>
+    <div class="nvset-field"><div class="nvset-flbl">Job Title</div><input class="holo-input" id="settingsJob" value="${esc(u.jobTitle||'')}" placeholder="Manager / Designer / Engineer"></div>
+    <div class="nvset-field"><div class="nvset-flbl">Status</div>
+      <select class="holo-input" id="settingsStatus">
+        <option value="available">🟢 Available</option>
+        <option value="busy">🔴 Busy</option>
+        <option value="away">🟡 Away</option>
+        <option value="dnd">⛔ Do Not Disturb</option>
+        <option value="creative">🎨 Creative Mode</option>
+        <option value="focus">💎 Deep Focus</option>
+      </select>
+    </div>
+    <button class="btn btn-primary" style="margin-top:4px" onclick="saveProfile()">&#x2728; Save Profile</button>`;
+  const statusEl=document.getElementById('settingsStatus'); if(statusEl)statusEl.value=u.status||'available';
+  const roleEl=document.getElementById('settingsRoleBadge'); if(roleEl)roleEl.textContent=(u.role||'member').toUpperCase();
+  // Theme buttons
   document.getElementById('themeDark')?.classList.toggle('active',S.theme==='dark');
   document.getElementById('themeLight')?.classList.toggle('active',S.theme==='light');
+  ['blossom','celestial','sakura','aurora'].forEach(t=>{
+    const id='th'+t.charAt(0).toUpperCase()+t.slice(1);
+    document.getElementById(id)?.classList.toggle('active',S.theme===t);
+  });
+  // Lang buttons
   document.getElementById('langBtnEn')?.classList.toggle('active',S.lang==='en');
   document.getElementById('langBtnAr')?.classList.toggle('active',S.lang==='ar');
+  // Load saved toggles
+  const sp=JSON.parse(localStorage.getItem('nvNotifPrefs')||'{}');
+  const ts=document.getElementById('toggleSent'),td=document.getElementById('toggleDelivered'),tsn=document.getElementById('toggleSeen');
+  if(ts)ts.checked=sp.sent!==false;if(td)td.checked=sp.delivered!==false;if(tsn)tsn.checked=sp.seen!==false;
+  const pm=document.getElementById('privacyMode');if(pm)pm.checked=!!sp.privacyMode;
+  loadDesignPrefs();
+}
+
+function toggleReadReceipts(){
+  const prefs=JSON.parse(localStorage.getItem('nvNotifPrefs')||'{}');
+  prefs.seen=!prefs.seen;localStorage.setItem('nvNotifPrefs',JSON.stringify(prefs));
+  const btn=document.getElementById('nvReadRecipts');
+  if(btn)btn.classList.toggle('nvset-act-on',prefs.seen!==false);
+  showToast(prefs.seen!==false?'Read receipts on':'Read receipts off','success');
+}
+function saveNotifPrefs(){
+  const ts=document.getElementById('toggleSent'),td=document.getElementById('toggleDelivered'),tsn=document.getElementById('toggleSeen');
+  const pm=document.getElementById('privacyMode');
+  const prefs={sent:ts?ts.checked:true,delivered:td?td.checked:true,seen:tsn?tsn.checked:true,privacyMode:pm?pm.checked:false};
+  localStorage.setItem('nvNotifPrefs',JSON.stringify(prefs));
+  showToast('Preferences saved','success');
 }
 
 async function saveProfile(){
@@ -2463,13 +2643,22 @@ window.setTheme = setThemeNova;
   document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
   function animCursor() {
     rx += (mx - rx) * 0.14; ry += (my - ry) * 0.14;
-    cur.style.cssText = `left:${mx}px;top:${my}px`;
-    ring.style.cssText = `left:${rx}px;top:${ry}px`;
+    // Only update left/top — never cssText (that destroys position:fixed!)
+    cur.style.left = mx + 'px';
+    cur.style.top  = my + 'px';
+    ring.style.left = rx + 'px';
+    ring.style.top  = ry + 'px';
     requestAnimationFrame(animCursor);
   }
   animCursor();
   document.addEventListener('mousedown', () => { cur.style.width='5px'; cur.style.height='5px'; });
-  document.addEventListener('mouseup', () => { cur.style.width='10px'; cur.style.height='10px'; });
+  document.addEventListener('mouseup',   () => { cur.style.width='10px';cur.style.height='10px'; });
+  // Re-append on any DOM mutation that might orphan them
+  function ensureCursor(){
+    if(!document.getElementById('nv-cursor'))document.body.appendChild(cur);
+    if(!document.getElementById('nv-ring'))  document.body.appendChild(ring);
+  }
+  setInterval(ensureCursor, 800);
 }
 
 /* ── UHD LOADING SCREEN ── */
@@ -2828,37 +3017,33 @@ window.novaPlayGame = novaPlayGame;
 
 /* ── NOVA SETTINGS PANEL OVERRIDE ── */
 const _v10RenderSettings = typeof renderSettings === 'function' ? renderSettings : null;
+// novaRenderSettings is now the main renderSettings (replaced above)
+// This wrapper ensures the Nova overlay does nothing extra
 function novaRenderSettings() {
-  if (_v10RenderSettings) _v10RenderSettings();
-  setTimeout(() => {
-    const body = document.querySelector('#screenSettings .settings-screen') || document.getElementById('settingsBody');
-    const existing = document.getElementById('novaThemeSection');
-    if (existing) return;
-    const parent = document.querySelector('#screenSettings .sec-body') || body;
-    if (!parent) return;
-    const sec = document.createElement('div');
-    sec.id = 'novaThemeSection';
-    sec.className = 'settings-section';
-    sec.innerHTML = `
-      <div class="settings-section-title">✦ Crystal Theme</div>
-      <div class="theme-grid-nova">
-        <div class="theme-opt-nova ton-blossom ${S.theme==='blossom'?'active':''}" data-theme="blossom" onclick="setThemeNova('blossom')">
-          <div style="font-size:28px">🌸</div><div class="ton-name">Blossom</div><div class="ton-desc">Dark Rose Noir</div>
-        </div>
-        <div class="theme-opt-nova ton-celestial ${S.theme==='celestial'?'active':''}" data-theme="celestial" onclick="setThemeNova('celestial')">
-          <div style="font-size:28px">✨</div><div class="ton-name">Celestial</div><div class="ton-desc">Midnight Gold</div>
-        </div>
-        <div class="theme-opt-nova ton-sakura ${S.theme==='sakura'?'active':''}" data-theme="sakura" onclick="setThemeNova('sakura')">
-          <div style="font-size:28px">🌺</div><div class="ton-name">Sakura</div><div class="ton-desc">Pearl & Petal Light</div>
-        </div>
-        <div class="theme-opt-nova ton-aurora ${S.theme==='aurora'?'active':''}" data-theme="aurora" onclick="setThemeNova('aurora')">
-          <div style="font-size:28px">🌊</div><div class="ton-name">Aurora</div><div class="ton-desc">Teal Cosmic Dark</div>
-        </div>
-      </div>`;
-    parent.insertBefore(sec, parent.firstChild);
-  }, 200);
+  renderSettings(); // calls the new renderSettings defined above
 }
-window.renderSettings = novaRenderSettings;
+// Note: we do NOT set window.renderSettings = novaRenderSettings here
+// because renderSettings was already redefined in the main V10 section
+
+// Also sync theme buttons in nova settings
+function syncNovaThemeBtns(){
+  const t=S.theme||'dark';
+  ['blossom','celestial','sakura','aurora','Dark','Light'].forEach(x=>{
+    const id='th'+x.charAt(0).toUpperCase()+x.slice(1);
+    const el=document.getElementById(id);
+    if(!el)return;
+    const match=(x==='Dark'&&t==='dark')||(x==='Light'&&t==='light')||x.toLowerCase()===t;
+    el.classList.toggle('active',match);
+  });
+  // Also sync V10 theme buttons
+  document.getElementById('themeDark')?.classList.toggle('active',t==='dark');
+  document.getElementById('themeLight')?.classList.toggle('active',t==='light');
+}
+// Override setTheme to also sync nova btns
+const _origSetTheme=window.setTheme;
+window.setTheme=function(t){_origSetTheme(t);setTimeout(syncNovaThemeBtns,50);};
+const _origSetThemeNova=window.setThemeNova;
+window.setThemeNova=function(t){_origSetThemeNova(t);setTimeout(syncNovaThemeBtns,50);};
 
 /* ── NOVA STATS OVERRIDE ── */
 const _v10RenderStats = typeof renderStats === 'function' ? renderStats : null;
